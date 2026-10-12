@@ -1,0 +1,19 @@
+{
+  "name": "pptx-varied-deck",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Renderer and helpers for the pptx-varied-deck skill: reference documents in, an editable deck out. Run `npm install` once in this folder.",
+  "dependencies": {
+    "opentype.js": "^1.3.4",
+    "pptxgenjs": "^4.0.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-icons": "^5.4.0",
+    "sharp": "^0.34.0"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ibnubt/anti-boring-pptx.git"
+  }
+}

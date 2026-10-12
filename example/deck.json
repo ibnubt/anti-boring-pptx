@@ -1,0 +1,270 @@
+{
+  "meta": { "title": "Contoh deck: uji coba pencatatan stok digital", "author": "PT Contoh", "lang": "id-ID" },
+  "brand": {
+    "name": "PT Contoh",
+    "colors": { "primary": "0E2A3B", "accent": "157A57", "warn": "E8A33C" },
+    "footer": "Contoh deck · semua angka adalah data rekaan"
+  },
+  "slides": [
+    {
+      "id": "cover", "layout": "cover",
+      "kicker": "Laporan uji coba · contoh",
+      "title": "Pencatatan stok digital", "accent": "di 3 gudang",
+      "subtitle": "Hasil uji coba tiga bulan: apa yang dipasang, apa yang berubah, dan apa langkah berikutnya.",
+      "for": "Disusun untuk rapat direksi", "note": "Semua angka di deck ini adalah data rekaan untuk contoh",
+      "panel": {
+        "arrows": true,
+        "items": [
+          { "icon": "FaTruckLoading", "label": "Barang masuk" },
+          { "icon": "FaWarehouse", "label": "Disimpan" },
+          { "icon": "FaTruck", "label": "Barang keluar" },
+          { "icon": "FaClipboardCheck", "label": "Stok dihitung" }
+        ],
+        "caption": "Empat titik yang dicatat"
+      },
+      "notes": "Selamat pagi. Ini laporan uji coba pencatatan stok digital di tiga gudang. Di kanan ada empat titik yang dicatat sistem: barang masuk, disimpan, barang keluar, dan stok dihitung. Panah menunjukkan urutan perjalanan barang. Empat titik ini dipakai lagi di slide-slide berikutnya."
+    },
+    {
+      "id": "agenda", "layout": "agenda",
+      "kicker": "Isi", "title": "Tiga hal yang dibahas",
+      "items": ["Masalah sebelum uji coba", "Yang dipasang dan cara kerjanya", "Hasil dan langkah berikutnya"],
+      "aside": { "heading": "Yang perlu diputuskan", "items": ["Apakah sistem diperluas ke 12 gudang?", "Gudang mana yang lebih dulu?"] },
+      "notes": "Ada tiga hal yang dibahas: masalah sebelum uji coba, apa yang dipasang dan cara kerjanya, lalu hasil dan langkah berikutnya. Di kanan ada dua hal yang perlu diputuskan hari ini. Slide seperti ini hanya dipakai bila diminta, karena isinya hanya mengatur slide lain."
+    },
+    {
+      "id": "angka-utama", "layout": "big-number",
+      "kicker": "Hasil utama", "title": "Selisih stok turun dari 4,1% menjadi 0,9%",
+      "number": "0,9%", "label": "selisih stok bulanan selama uji coba, rata-rata 3 gudang",
+      "body": ["Sebelum uji coba, selisih antara catatan dan isi gudang rata-rata 4,1% per bulan.", "Selama tiga bulan uji coba, selisih itu menjadi 0,9%.", "Penurunan terjadi di ketiga gudang, bukan hanya di satu gudang."],
+      "stats": [{ "value": "4,1%", "label": "selisih sebelum uji coba" }, { "value": "3", "label": "gudang yang diuji, dari 12" }, { "value": "3 bulan", "label": "lama uji coba" }],
+      "source": "Selisih stok = beda antara jumlah di catatan dan jumlah hasil hitung, dibagi jumlah di catatan. Data rekaan.",
+      "notes": "Ini hasil utamanya. Angka besar di kiri adalah selisih stok bulanan selama uji coba, yaitu 0,9 persen, rata-rata tiga gudang. Di kanan penjelasannya: sebelum uji coba selisihnya 4,1 persen. Tiga kotak di bawah memberi konteks: angka sebelumnya, jumlah gudang yang diuji, dan lama uji coba. Baris kecil di bawah menjelaskan cara menghitung selisih stok."
+    },
+    {
+      "id": "masalah", "layout": "stations",
+      "kicker": "Masalah sebelum uji coba", "title": "Dengan catatan tangan, kesalahan muncul di empat titik",
+      "stationsLabel": "Alur barang",
+      "stations": [
+        { "icon": "FaTruckLoading", "label": "Barang masuk" }, { "icon": "FaWarehouse", "label": "Disimpan" },
+        { "icon": "FaTruck", "label": "Barang keluar" }, { "icon": "FaClipboardCheck", "label": "Stok dihitung" }
+      ],
+      "rows": [
+        { "label": "Masalah", "style": "warn", "cells": [
+          { "title": "Jumlah salah tulis", "text": "Petugas menyalin angka dari surat jalan ke buku, lalu ke komputer." },
+          { "title": "Letak barang tidak tercatat", "text": "Barang dicari dengan bertanya ke petugas yang menaruhnya." },
+          { "title": "Barang keluar terlambat dicatat", "text": "Catatan dibuat di akhir giliran kerja, bukan saat barang keluar." },
+          { "title": "Menghitung stok makan 2 hari", "text": "Gudang berhenti melayani selama stok dihitung." }
+        ] },
+        { "label": "Akibat", "style": "strong", "cells": ["Stok di catatan lebih besar dari isi gudang", "Waktu habis untuk mencari barang", "Stok terlihat ada padahal sudah keluar", "Pengiriman tertunda tiap akhir bulan"] }
+      ],
+      "source": "Hasil pengamatan di tiga gudang sebelum uji coba. Panah menunjukkan urutan perjalanan barang.",
+      "notes": "Baris biru tua adalah alur barang, empat titik dari barang masuk sampai stok dihitung. Panah menunjukkan urutannya. Di bawah tiap titik, kartu bergaris kuning adalah masalah yang kami temukan: jumlah salah tulis, letak barang tidak tercatat, barang keluar terlambat dicatat, dan menghitung stok makan dua hari. Baris paling bawah adalah akibatnya. Slide berikutnya memakai empat titik yang sama untuk menunjukkan yang dipasang."
+    },
+    {
+      "id": "pembatas", "layout": "section",
+      "number": "02", "title": "Yang dipasang dan cara kerjanya", "subtitle": "Pemindai, aplikasi gudang, dan layar untuk kepala gudang.",
+      "notes": "Bagian kedua: apa yang dipasang dan cara kerjanya. Slide pembatas seperti ini hanya dipakai pada deck yang panjang, karena isinya hanya mengatur slide lain."
+    },
+    {
+      "id": "cara-kerja", "layout": "process",
+      "kicker": "Cara kerja", "title": "Setiap barang masuk dicatat dalam empat langkah, tanpa ditulis tangan",
+      "steps": [
+        { "title": "Truk tiba", "tag": "Petugas memindai surat jalan", "text": "Daftar barang yang seharusnya datang muncul di layar." },
+        { "title": "Barang dipindai", "tag": "Pemindai genggam", "text": "Tiap dus dipindai. Jumlahnya dibandingkan dengan surat jalan." },
+        { "title": "Barang ditaruh", "tag": "Label rak", "text": "Petugas memindai label rak, sehingga letak barang tercatat." },
+        { "title": "Stok bertambah", "tag": "Otomatis", "text": "Jumlah dan letak barang langsung terlihat di layar kepala gudang." }
+      ],
+      "lastStrong": true,
+      "list": { "heading": "Tiga cara menjaga angka tetap benar", "items": ["Jumlah berasal dari pemindai, bukan diketik petugas", "Selisih dengan surat jalan langsung memunculkan peringatan", "Bila jaringan putus, data disimpan di pemindai lalu dikirim saat tersambung"] },
+      "aside": { "heading": "Bukti terima barang", "tag": "ILUSTRASI", "fields": [
+        { "label": "Surat jalan", "value": "120 dus" }, { "label": "Dipindai", "value": "118 dus" },
+        { "label": "Selisih", "value": "2 dus", "strong": true }, { "label": "Letak", "value": "Rak B-14" }
+      ], "result": "Selisih 2 dus · peringatan dikirim ke kepala gudang" },
+      "notes": "Empat kartu di atas adalah empat langkah saat barang masuk, dan panah berarti lalu. Di tiap kartu, baris hijau adalah alat atau tindakannya, baris abu-abu adalah yang terjadi. Truk tiba dan surat jalan dipindai. Tiap dus dipindai dan jumlahnya dibandingkan. Label rak dipindai sehingga letaknya tercatat. Lalu stok bertambah otomatis. Kiri bawah adalah tiga cara menjaga angka tetap benar. Kanan bawah adalah contoh bukti terima barang: surat jalan 120 dus, dipindai 118, selisih 2 dus, dan peringatan dikirim. Angkanya contoh."
+    },
+    {
+      "id": "aplikasi", "layout": "feature",
+      "kicker": "Yang dipasang", "title": "Tiga alat dipasang di tiap gudang, dan petugas memakai enam fungsi",
+      "panel": { "heading": "Alat di tiap gudang", "bullets": ["4 pemindai genggam untuk petugas", "Label untuk setiap rak", "1 layar di ruang kepala gudang", "Jaringan nirkabel di seluruh area gudang"] },
+      "itemsHeading": "Yang bisa dilakukan petugas",
+      "items": [
+        { "icon": "FaBarcode", "lead": "Menerima barang.", "text": "Memindai dus dan membandingkannya dengan surat jalan." },
+        { "icon": "FaMapMarkerAlt", "lead": "Mencatat letak.", "text": "Memindai label rak saat menaruh barang." },
+        { "icon": "FaSearch", "lead": "Mencari barang.", "text": "Mengetik nama barang, lalu layar menunjukkan raknya." },
+        { "icon": "FaTruck", "lead": "Mengeluarkan barang.", "text": "Memindai dus saat dimuat ke truk." },
+        { "icon": "FaClipboardCheck", "lead": "Menghitung stok.", "text": "Memindai satu rak per hari, tanpa menutup gudang." },
+        { "icon": "FaBell", "lead": "Menerima peringatan.", "text": "Bila jumlah tidak cocok dengan catatan." }
+      ],
+      "band": { "lead": "Hasil:", "text": "petugas tidak lagi menulis angka, dan kepala gudang melihat stok setiap saat." },
+      "notes": "Panel kiri adalah alat yang dipasang di tiap gudang: empat pemindai genggam, label di setiap rak, satu layar di ruang kepala gudang, dan jaringan nirkabel. Di kanan ada enam hal yang bisa dilakukan petugas, masing-masing dengan ikonnya: menerima barang, mencatat letak, mencari barang, mengeluarkan barang, menghitung stok, dan menerima peringatan. Pita hijau di bawah adalah hasilnya."
+    },
+    {
+      "id": "layar", "layout": "screen",
+      "kicker": "Yang dilihat kepala gudang", "title": "Kepala gudang melihat stok dan selisihnya setiap hari",
+      "screen": {
+        "title": "Gudang A · ringkasan hari ini",
+        "tiles": [ { "label": "Barang masuk", "value": "1.240 dus" }, { "label": "Barang keluar", "value": "1.105 dus" }, { "label": "Rak terisi", "value": "82%" }, { "label": "Selisih belum selesai", "value": "2", "warn": true } ],
+        "barsTitle": "Isi tiap lorong (%)",
+        "bars": [ { "label": "Lorong A", "value": 91, "text": "91%" }, { "label": "Lorong B", "value": 84, "text": "84%" }, { "label": "Lorong C", "value": 77, "text": "77%" }, { "label": "Lorong D", "value": 76, "text": "76%" } ],
+        "barsMax": 100,
+        "rowsTitle": "Peringatan terbaru",
+        "rows": [ { "text": "09.40 · Selisih 2 dus di surat jalan 118", "status": "warn" }, { "text": "09.12 · Rak B-14 penuh", "status": "warn" }, { "text": "08.55 · Hitung stok lorong C selesai", "status": "ok" } ],
+        "note": "Batang penuh = lorong terisi 100%. Titik kuning = perlu ditangani, titik hijau = selesai."
+      },
+      "side": { "heading": "Dari peringatan sampai selesai", "steps": ["Pemindai menemukan jumlah yang tidak cocok.", "Peringatan muncul di layar kepala gudang.", "Kepala gudang menunjuk petugas untuk memeriksa.", "Hasil pemeriksaan dicatat, lalu peringatan ditutup."], "note": "Laporan harian dibuat otomatis setiap pukul 17.00." },
+      "notes": "Ini ilustrasi layar kepala gudang, dan angkanya contoh. Baris atas adalah empat angka hari ini: barang masuk, barang keluar, rak terisi, dan selisih yang belum selesai, yang diberi warna kuning. Kiri bawah adalah isi tiap lorong; batang penuh berarti lorong terisi seratus persen. Kanan bawah adalah peringatan terbaru; titik kuning perlu ditangani, titik hijau sudah selesai. Kolom kanan menjelaskan empat langkah dari peringatan sampai selesai. Kotak di bawahnya: laporan harian dibuat otomatis."
+    },
+    {
+      "id": "grafik-batang", "layout": "chart",
+      "kicker": "Hasil", "title": "Selisih stok turun di ketiga gudang, bukan hanya di satu gudang",
+      "chart": {
+        "type": "bar", "title": "Selisih stok bulanan (%)",
+        "categories": ["Gudang A", "Gudang B", "Gudang C"],
+        "series": [ { "name": "Sebelum uji coba", "values": [3.8, 4.0, 4.5], "color": "muted" }, { "name": "Selama uji coba", "values": [0.7, 0.9, 1.1] } ],
+        "condition": "Rata-rata 3 bulan sebelum uji coba dan 3 bulan selama uji coba. Data rekaan."
+      },
+      "takeaway": { "heading": "Yang terlihat", "bullets": ["Ketiga gudang turun ke sekitar 1%.", "Gudang C paling tinggi di kedua masa.", "Rata-rata tiga gudang: dari 4,1% menjadi 0,9%."] },
+      "notes": "Grafik ini membandingkan selisih stok bulanan di tiga gudang. Sumbu datar adalah gudangnya, tinggi batang adalah selisih dalam persen. Batang abu-abu adalah rata-rata tiga bulan sebelum uji coba, batang hijau adalah rata-rata tiga bulan selama uji coba. Ketiga gudang turun ke sekitar satu persen. Gudang C paling tinggi di kedua masa, dan itu dibahas dua slide lagi."
+    },
+    {
+      "id": "angka-hasil", "layout": "kpi", "tone": "dark",
+      "kicker": "Hasil", "title": "Empat angka hasil uji coba",
+      "tiles": [
+        { "value": "18.400", "label": "barang masuk dan keluar tercatat", "note": "selama 3 bulan di 3 gudang" },
+        { "value": "96%", "label": "tercatat lewat pemindai", "note": "sisanya diketik saat pemindai rusak" },
+        { "value": "2 menit", "label": "waktu mencatat satu kiriman", "note": "sebelumnya 6 menit" },
+        { "value": "0 hari", "label": "gudang tutup untuk hitung stok", "note": "sebelumnya 2 hari tiap bulan" }
+      ],
+      "band": { "lead": "Catatan:", "text": "4% pencatatan masih diketik tangan. Itu terjadi saat pemindai kehabisan baterai." },
+      "notes": "Empat angka hasil uji coba. Pertama, 18.400 barang masuk dan keluar tercatat selama tiga bulan. Kedua, 96 persen di antaranya tercatat lewat pemindai. Ketiga, waktu mencatat satu kiriman menjadi dua menit, dari sebelumnya enam menit. Keempat, gudang tidak lagi tutup untuk menghitung stok. Pita kuning di bawah mengingatkan bahwa empat persen pencatatan masih diketik tangan, yaitu saat pemindai kehabisan baterai."
+    },
+    {
+      "id": "banding", "layout": "comparison",
+      "kicker": "Perbandingan", "title": "Catatan tangan dan pemindai berbeda di empat hal",
+      "columns": [ { "head": "Catatan tangan" }, { "head": "Pemindai", "highlight": true } ],
+      "rows": [
+        { "label": "Asal angka", "cells": ["Disalin petugas dari surat jalan", "Dibaca pemindai dari label dus"] },
+        { "label": "Letak barang", "cells": ["Diingat petugas", "Tercatat per rak"] },
+        { "label": "Kapan tercatat", "cells": ["Di akhir giliran kerja", "Saat barang dipindai"] },
+        { "label": "Hitung stok", "cells": ["Sebulan sekali, gudang tutup 2 hari", "Satu rak per hari, gudang tetap buka"] }
+      ],
+      "key": [ { "color": "muted", "label": "kolom kiri: cara lama" }, { "color": "accent", "label": "bingkai hijau: cara baru" } ],
+      "notes": "Tabel ini membandingkan dua cara di empat hal. Kolom kiri adalah catatan tangan, kolom berbingkai hijau adalah pemindai. Asal angka: dulu disalin petugas, sekarang dibaca pemindai. Letak barang: dulu diingat, sekarang tercatat per rak. Kapan tercatat: dulu di akhir giliran kerja, sekarang saat dipindai. Hitung stok: dulu sebulan sekali dan gudang tutup, sekarang satu rak per hari."
+    },
+    {
+      "id": "pola", "layout": "matrix",
+      "kicker": "Analisis", "title": "Gudang C masih lemah di dua titik, dan keduanya soal jaringan",
+      "columns": ["Barang masuk", "Disimpan", "Barang keluar", "Stok dihitung"],
+      "rows": [
+        { "label": "Gudang A", "marks": [true, true, true, true] },
+        { "label": "Gudang B", "marks": [true, true, true, true] },
+        { "label": "Gudang C", "strong": true, "marks": [true, false, true, false] }
+      ],
+      "marks": { "filled": "selisih di bawah 1%", "empty": "selisih 1% atau lebih" },
+      "aside": { "heading": "Yang terlihat", "bullets": ["Gudang A dan B baik di semua titik.", "Gudang C lemah saat menyimpan dan menghitung stok.", "Di dua titik itu petugas bekerja di lorong belakang, yang jaringannya sering putus."] },
+      "source": "Selisih per titik selama uji coba. Data rekaan.",
+      "notes": "Matriks ini menunjukkan di titik mana tiap gudang masih lemah. Baris adalah gudang, kolom adalah empat titik alur barang. Titik penuh berarti selisih di bawah satu persen, titik kosong berarti satu persen atau lebih. Gudang A dan B penuh di semua titik. Gudang C kosong di dua titik, yaitu saat menyimpan dan saat menghitung stok. Panel kanan menjelaskan sebabnya: di dua titik itu petugas bekerja di lorong belakang yang jaringannya sering putus."
+    },
+    {
+      "id": "grafik-garis", "layout": "chart", "tone": "tint",
+      "kicker": "Hasil", "title": "Selisih turun bertahap, dan baru stabil di bulan ketiga",
+      "chart": {
+        "type": "line", "title": "Selisih stok rata-rata 3 gudang (%)",
+        "categories": ["3 bln sebelum", "2 bln sebelum", "1 bln sebelum", "Bulan 1", "Bulan 2", "Bulan 3"],
+        "series": [ { "name": "Selisih stok", "values": [4.2, 4.0, 4.1, 1.6, 0.7, 0.4] } ],
+        "min": 0, "max": 5,
+        "condition": "Bulan 1 sampai 3 adalah masa uji coba. Rata-rata tiga bulan uji coba = 0,9%. Data rekaan."
+      },
+      "takeaway": { "heading": "Yang terlihat", "bullets": ["Bulan pertama masih 1,6% karena petugas baru belajar.", "Bulan ketiga sudah 0,4%.", "Perluasan sebaiknya memberi waktu belajar satu bulan."] },
+      "notes": "Grafik garis ini menunjukkan selisih stok rata-rata tiga gudang dari bulan ke bulan. Sumbu datar adalah bulannya: tiga bulan sebelum uji coba, lalu tiga bulan uji coba. Sumbu tegak adalah selisih dalam persen. Sebelum uji coba garisnya di sekitar empat persen. Di bulan pertama turun ke 1,6 persen, lalu 0,7, lalu 0,4 persen. Rata-rata tiga bulan uji coba adalah 0,9 persen, sama dengan angka di slide awal."
+    },
+    {
+      "id": "susunan-data", "layout": "nested",
+      "kicker": "Susunan data", "title": "Setiap barang tercatat sampai ke raknya",
+      "levels": [
+        { "label": "Perusahaan", "note": "12 gudang" },
+        { "label": "Gudang", "note": "4 sampai 6 lorong" },
+        { "label": "Lorong dan rak", "note": "tiap rak punya label" },
+        { "label": "Barang", "note": "Jumlah, tanggal masuk, dan petugas yang memindai tercatat untuk tiap barang." }
+      ],
+      "aside": { "heading": "Artinya", "bullets": ["Direksi melihat stok seluruh perusahaan.", "Kepala gudang melihat gudangnya sendiri.", "Petugas mencari barang sampai ke raknya."] },
+      "notes": "Gambar ini menunjukkan susunan data. Kotak di dalam kotak berarti berisi: perusahaan berisi gudang, gudang berisi lorong dan rak, dan rak berisi barang. Kotak hijau di tengah adalah barang, dengan jumlah, tanggal masuk, dan petugas yang memindainya. Di kanan artinya bagi tiap orang: direksi melihat seluruh perusahaan, kepala gudang melihat gudangnya, dan petugas mencari barang sampai ke raknya."
+    },
+    {
+      "id": "tabel", "layout": "table",
+      "kicker": "Kebutuhan", "title": "Tiga jenis alat diperlukan untuk tiap gudang baru",
+      "head": ["Alat", "Jumlah per gudang", "Catatan"],
+      "widths": [3, 2, 4],
+      "rows": [
+        ["Pemindai genggam", "[n]", "Satu untuk tiap petugas dalam satu giliran kerja"],
+        ["Label rak", "[n]", "Satu untuk tiap rak"],
+        ["Layar kepala gudang", "1", "Di ruang kepala gudang"]
+      ],
+      "note": "[n] diisi setelah survei tiap gudang. Tabel hanya dipakai bila isinya sedikit dan setiap selnya akan diucapkan.",
+      "aside": { "heading": "Yang belum diputuskan", "bullets": ["Jumlah pemindai per gudang", "Siapa yang memasang jaringan nirkabel"] },
+      "notes": "Tabel ini memuat tiga jenis alat untuk tiap gudang baru: pemindai genggam, label rak, dan layar kepala gudang. Kolom kedua adalah jumlahnya. Dua di antaranya masih bertanda n dalam kurung, karena baru bisa diisi setelah survei tiap gudang. Kolom ketiga adalah catatannya. Panel kanan memuat dua hal yang belum diputuskan."
+    },
+    {
+      "id": "pelajaran", "layout": "pairs",
+      "kicker": "Pelajaran", "title": "Empat pelajaran dari uji coba sudah mengubah rencana perluasan",
+      "leftHead": "Yang kami pelajari", "rightHead": "Yang kami ubah",
+      "rows": [
+        { "left": "Jaringan di lorong belakang sering putus.", "right": "Pemindai menyimpan data dulu, lalu mengirimnya saat tersambung." },
+        { "left": "Pemindai kehabisan baterai di tengah giliran kerja.", "right": "Tiap gudang mendapat baterai cadangan dan tempat pengisian." },
+        { "left": "Petugas perlu satu bulan untuk terbiasa.", "right": "Tiap gudang baru didampingi selama satu bulan pertama." },
+        { "left": "Label rak mudah rusak terkena troli.", "right": "Label dipasang lebih tinggi dan diberi pelindung." }
+      ],
+      "source": "Dari catatan harian tim uji coba. Panah berarti \"karena itu\".",
+      "notes": "Kolom kiri adalah yang kami pelajari selama uji coba, kolom kanan adalah yang kami ubah. Panah berarti karena itu. Jaringan sering putus, karena itu pemindai menyimpan data dulu. Baterai habis di tengah giliran kerja, karena itu tiap gudang mendapat baterai cadangan. Petugas perlu satu bulan untuk terbiasa, karena itu tiap gudang baru didampingi. Label rak mudah rusak, karena itu dipasang lebih tinggi."
+    },
+    {
+      "id": "status", "layout": "split",
+      "kicker": "Keadaan sekarang", "title": "Tiga gudang sudah berjalan, sembilan gudang menunggu keputusan",
+      "left": { "heading": "Sudah berjalan", "bullets": ["Gudang A, B, dan C memakai pemindai setiap hari.", "Kepala gudang menerima laporan harian otomatis.", "Hitung stok dilakukan satu rak per hari."] },
+      "right": { "heading": "Menunggu keputusan", "cards": [
+        { "title": "Perluasan ke 9 gudang lain", "text": "Urutan gudang belum ditetapkan." },
+        { "title": "Jaringan di gudang C", "text": "Perlu tambahan pemancar di lorong belakang." },
+        { "title": "Sambungan ke aplikasi keuangan", "text": "Belum dibahas dengan bagian keuangan." }
+      ] },
+      "notes": "Slide ini membagi keadaan sekarang menjadi dua. Panel kiri adalah yang sudah berjalan: tiga gudang memakai pemindai setiap hari, laporan harian otomatis, dan hitung stok satu rak per hari. Panel biru tua di kanan adalah yang menunggu keputusan, tiga kartu: perluasan ke sembilan gudang lain, jaringan di gudang C, dan sambungan ke aplikasi keuangan."
+    },
+    {
+      "id": "foto", "layout": "image-text",
+      "kicker": "Di lapangan", "title": "Petugas memindai label rak saat menaruh barang",
+      "alt": "Foto petugas memindai label rak",
+      "heading": "Yang terlihat di foto",
+      "bullets": ["Pemindai dipegang satu tangan.", "Label rak dipasang setinggi dada.", "Layar pemindai langsung menampilkan nama barang dan jumlahnya."],
+      "notes": "Di kiri seharusnya ada foto petugas yang memindai label rak; kotaknya masih kosong dan perlu diisi dengan foto asli. Di kanan tiga hal yang terlihat di foto: pemindai dipegang satu tangan, label rak dipasang setinggi dada, dan layar pemindai langsung menampilkan nama barang dan jumlahnya."
+    },
+    {
+      "id": "kutipan", "layout": "quote",
+      "kicker": "Suara pengguna", "title": "Kepala gudang tidak lagi menunggu akhir bulan",
+      "quote": "[Kutipan dari kepala gudang, diisi dari hasil wawancara]",
+      "by": "[Nama, jabatan]", "context": "Kutipan tidak boleh dikarang. Kotak ini dibiarkan kosong sampai ada kutipan asli.",
+      "notes": "Slide ini disediakan untuk satu kutipan dari kepala gudang. Kutipannya belum ada, jadi masih berupa kurung siku. Kutipan tidak boleh dikarang; isi dengan kalimat asli dari hasil wawancara, lengkap dengan nama dan jabatannya."
+    },
+    {
+      "id": "tahapan", "layout": "timeline",
+      "kicker": "Langkah berikutnya", "title": "Perluasan dilakukan dalam tiga tahap, mulai dari gudang terbesar",
+      "items": [
+        { "label": "Tahap 1", "title": "Tiga gudang terbesar", "bullets": ["Survei dan hitung kebutuhan alat", "Pasang jaringan dan label rak", "Dampingi petugas satu bulan"], "result": "setengah dari seluruh barang tercatat digital" },
+        { "label": "Tahap 2", "title": "Enam gudang lain", "bullets": ["Pakai susunan yang sama", "Petugas tahap 1 ikut melatih"], "result": "semua gudang memakai pemindai" },
+        { "label": "Tahap 3", "title": "Sambungan ke keuangan", "bullets": ["Nilai stok masuk ke laporan keuangan", "Laporan gabungan untuk direksi"], "result": "satu angka stok untuk gudang dan keuangan" }
+      ],
+      "roles": [ { "who": "Direksi", "does": "Menetapkan urutan gudang." }, { "who": "Tim proyek", "does": "Memasang, melatih, dan mendampingi." }, { "who": "Kepala gudang", "does": "Menunjuk petugas dan menjaga pemakaian harian." } ],
+      "notes": "Perluasan dibagi menjadi tiga tahap. Panah di atas menunjukkan urutannya, dan tidak ada tanggal karena jadwalnya belum diputuskan. Tahap satu adalah tiga gudang terbesar. Tahap dua adalah enam gudang lain dengan susunan yang sama. Tahap tiga adalah sambungan ke keuangan. Di tiap kartu, baris hasil menyebut apa yang tercapai. Baris bawah membagi peran: direksi menetapkan urutan gudang, tim proyek memasang dan melatih, kepala gudang menjaga pemakaian harian."
+    },
+    {
+      "id": "penutup", "layout": "closing",
+      "kicker": "Yang diminta hari ini", "title": "Dua keputusan dan dua langkah berikutnya",
+      "steps": [
+        { "title": "Setujui perluasan ke sembilan gudang lain", "text": "Tiga tahap, mulai dari gudang terbesar." },
+        { "title": "Tetapkan tiga gudang untuk tahap pertama", "text": "Usulan kami: gudang D, E, dan F." },
+        { "title": "Survei tiga gudang itu", "text": "Untuk menghitung jumlah pemindai dan label rak." },
+        { "title": "Perbaiki jaringan di gudang C", "text": "Tambahan pemancar di lorong belakang." }
+      ],
+      "thanks": "Terima kasih", "contact": "[Nama penyaji] · [email] · [telepon]",
+      "notes": "Penutup. Ada dua keputusan yang kami minta hari ini dan dua langkah berikutnya. Satu, setujui perluasan ke sembilan gudang lain. Dua, tetapkan tiga gudang untuk tahap pertama. Tiga, survei tiga gudang itu. Empat, perbaiki jaringan di gudang C. Terima kasih. Kontak di bawah masih perlu diisi."
+    }
+  ]
+}
