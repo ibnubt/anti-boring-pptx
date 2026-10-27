@@ -1,0 +1,675 @@
+{
+ "meta": {
+  "title": "Contoh laporan bulanan: operasional gudang September",
+  "author": "PT Contoh",
+  "lang": "id-ID",
+  "transition": "fade",
+  "coverage": [
+   {
+    "id": "R1",
+    "title": "Selisih stok rata-rata turun ke 0,6%"
+   },
+   {
+    "id": "R2",
+    "title": "Gudang C masih 1,1%"
+   },
+   {
+    "id": "R3",
+    "title": "Kemajuan perluasan tahap 1"
+   },
+   {
+    "id": "R4",
+    "title": "Sambungan ke aplikasi keuangan terlambat"
+   },
+   {
+    "id": "R5",
+    "title": "Barang masuk dan keluar September"
+   },
+   {
+    "id": "R6",
+    "title": "Selisih per gudang, Juli sampai September"
+   },
+   {
+    "id": "R7",
+    "title": "Status tujuh pekerjaan"
+   },
+   {
+    "id": "R8",
+    "title": "Lorong belakang gudang C tidak terjangkau pemancar"
+   },
+   {
+    "id": "R9",
+    "title": "Selisih per lorong"
+   },
+   {
+    "id": "R10",
+    "title": "Peringatan per jenis per minggu"
+   },
+   {
+    "id": "R11",
+    "title": "Keputusan dan pekerjaan Oktober"
+   },
+   {
+    "id": "R12",
+    "title": "Biaya operasional pemindai"
+   }
+  ],
+  "omit": {
+   "R12": "Biaya dibahas di laporan keuangan; di luar lingkup rapat operasional ini"
+  }
+ },
+ "brand": {
+  "name": "PT Contoh",
+  "colors": {
+   "primary": "0E2A3B",
+   "accent": "157A57",
+   "warn": "E8A33C"
+  },
+  "footer": "Contoh laporan · semua angka adalah data rekaan"
+ },
+ "slides": [
+  {
+   "id": "cover",
+   "layout": "cover",
+   "kicker": "Laporan bulanan · contoh",
+   "title": "Operasional gudang",
+   "accent": "September 2026",
+   "subtitle": "Stok, peringatan, dan pekerjaan perluasan di tiga gudang yang sudah memakai pemindai.",
+   "for": "Disusun untuk rapat bulanan direksi",
+   "note": "Semua angka di deck ini rekaan untuk contoh",
+   "panel": {
+    "items": [
+     {
+      "icon": "FaClipboardList",
+      "label": "Ringkasan bulan ini"
+     },
+     {
+      "icon": "FaChartBar",
+      "label": "Angka September"
+     },
+     {
+      "icon": "FaTasks",
+      "label": "Pekerjaan berjalan"
+     },
+     {
+      "icon": "FaMapMarkedAlt",
+      "label": "Gudang C"
+     },
+     {
+      "icon": "FaFlagCheckered",
+      "label": "Keputusan dan rencana"
+     }
+    ],
+    "caption": "Lima bagian laporan"
+   },
+   "notes": "PEMBUKA\nIni laporan operasional gudang untuk September.\nIsinya lima bagian, seperti di panel kanan.\n\nHIGHLIGHT\nSemua angka di deck ini rekaan, karena ini contoh."
+  },
+  {
+   "id": "ringkasan",
+   "layout": "summary",
+   "kicker": "Ringkasan",
+   "title": "Selisih stok terendah sejak uji coba, tetapi gudang C tertinggal",
+   "covers": [
+    "R1",
+    "R2",
+    "R3",
+    "R4"
+   ],
+   "points": [
+    {
+     "title": "Selisih stok turun ke 0,6%",
+     "text": "Dari 0,9% di Agustus."
+    },
+    {
+     "title": "Gudang C masih 1,1%",
+     "text": "Terkumpul di lorong belakang."
+    },
+    {
+     "title": "Perluasan tahap 1 berjalan",
+     "text": "Survei gudang D, E, F selesai."
+    },
+    {
+     "title": "Aplikasi keuangan terlambat",
+     "text": "Format data belum disepakati.",
+     "warn": true
+    }
+   ],
+   "numbers": [
+    {
+     "value": "0,6%",
+     "label": "selisih stok rata-rata"
+    },
+    {
+     "value": "36.560",
+     "label": "dus dipindai"
+    },
+    {
+     "value": "88%",
+     "label": "peringatan selesai dalam 1 jam"
+    }
+   ],
+   "ask": {
+    "heading": "Perlu diputuskan",
+    "text": "Satu pemancar tambahan untuk gudang C."
+   },
+   "notes": "INTI\nSeptember adalah bulan dengan selisih stok terendah sejak uji coba.\nTetapi gudang C masih tertinggal.\n\nPENJELASAN\nEmpat temuan ada di kiri, urut dari yang paling penting.\nAngka di kolom gelap adalah ringkasan bulan ini.\n\nHIGHLIGHT\nKotak kuning di bawah adalah satu keputusan yang kami minta hari ini."
+  },
+  {
+   "id": "angka",
+   "layout": "dashboard",
+   "kicker": "Angka September",
+   "title": "Barang masuk naik 6%, dan selisih turun di ketiga gudang",
+   "covers": [
+    "R5",
+    "R6"
+   ],
+   "tiles": [
+    {
+     "value": "18.920",
+     "label": "Dus masuk",
+     "delta": "+6%",
+     "good": true
+    },
+    {
+     "value": "17.640",
+     "label": "Dus keluar",
+     "delta": "+4%",
+     "good": true
+    },
+    {
+     "value": "0,6%",
+     "label": "Selisih stok rata-rata",
+     "delta": "-0,3 poin",
+     "good": true
+    },
+    {
+     "value": "88%",
+     "label": "Peringatan selesai dalam 1 jam",
+     "delta": "-4 poin",
+     "good": false
+    }
+   ],
+   "charts": [
+    {
+     "type": "bar",
+     "stacked": true,
+     "title": "Dus masuk per minggu",
+     "categories": [
+      "Minggu 1",
+      "Minggu 2",
+      "Minggu 3",
+      "Minggu 4"
+     ],
+     "series": [
+      {
+       "name": "Gudang A",
+       "values": [
+        1980,
+        2110,
+        2050,
+        2190
+       ]
+      },
+      {
+       "name": "Gudang B",
+       "values": [
+        1520,
+        1610,
+        1580,
+        1660
+       ]
+      },
+      {
+       "name": "Gudang C",
+       "values": [
+        1050,
+        1090,
+        1020,
+        1060
+       ]
+      }
+     ],
+     "condition": "Dus yang dipindai di dok bongkar, September 2026. Data rekaan."
+    },
+    {
+     "type": "line",
+     "title": "Selisih stok per gudang (%)",
+     "categories": [
+      "Juli",
+      "Agustus",
+      "September"
+     ],
+     "series": [
+      {
+       "name": "Gudang A",
+       "values": [
+        0.7,
+        0.6,
+        0.4
+       ]
+      },
+      {
+       "name": "Gudang B",
+       "values": [
+        0.9,
+        0.7,
+        0.4
+       ]
+      },
+      {
+       "name": "Gudang C",
+       "values": [
+        1.6,
+        1.4,
+        1.1
+       ]
+      }
+     ],
+     "condition": "Selisih bulanan dibagi barang masuk, Juli sampai September 2026. Data rekaan."
+    }
+   ],
+   "notes": "INTI\nBarang masuk naik, dan selisih turun di ketiga gudang.\n\nPENJELASAN\nEmpat angka di atas dibandingkan dengan Agustus; segitiga hijau berarti membaik, merah berarti memburuk.\nGrafik kiri adalah dus masuk per minggu, ditumpuk per gudang.\nGrafik kanan adalah selisih per gudang selama tiga bulan.\nGudang C mencatat 22% barang masuk, tetapi hampir separuh selisih.\n\nHIGHLIGHT\nGaris gudang C turun, tetapi masih jauh di atas dua gudang lain.\nSatu angka memburuk: peringatan yang selesai dalam satu jam, karena dua pemindai rusak.",
+   "source": "Segitiga = perubahan dibanding Agustus 2026; hijau membaik, merah memburuk. Data rekaan."
+  },
+  {
+   "id": "pekerjaan",
+   "layout": "status",
+   "kicker": "Pekerjaan berjalan",
+   "title": "Dua dari tujuh pekerjaan selesai, dua berisiko, satu terlambat",
+   "covers": [
+    "R7"
+   ],
+   "rows": [
+    {
+     "name": "Survei gudang D, E, dan F",
+     "status": "done",
+     "progress": 100,
+     "text": "Jumlah alat per gudang sudah dihitung.",
+     "owner": "Tim proyek"
+    },
+    {
+     "name": "Penggantian pemindai rusak",
+     "status": "done",
+     "progress": 100,
+     "text": "Dua pemindai diganti di minggu 3.",
+     "owner": "Kepala gudang B"
+    },
+    {
+     "name": "Jaringan nirkabel gudang D",
+     "status": "ok",
+     "progress": 60,
+     "text": "Kabel terpasang; pemancar menyusul.",
+     "owner": "Tim jaringan"
+    },
+    {
+     "name": "Pelatihan petugas gudang D",
+     "status": "ok",
+     "progress": 50,
+     "text": "12 dari 24 petugas sudah berlatih.",
+     "owner": "Tim proyek"
+    },
+    {
+     "name": "Label rak gudang E",
+     "status": "risk",
+     "progress": 35,
+     "text": "Pengiriman label tertunda dua minggu.",
+     "owner": "Pengadaan"
+    },
+    {
+     "name": "Perbaikan jaringan gudang C",
+     "status": "risk",
+     "progress": 20,
+     "text": "Menunggu keputusan pemancar tambahan.",
+     "owner": "Tim jaringan"
+    },
+    {
+     "name": "Sambungan ke aplikasi keuangan",
+     "status": "late",
+     "progress": 10,
+     "text": "Format data belum disepakati.",
+     "owner": "Bagian keuangan"
+    }
+   ],
+   "notes": "INTI\nDua pekerjaan selesai, dua berisiko, dan satu terlambat.\n\nPENJELASAN\nTiap baris satu pekerjaan, dengan statusnya, kemajuannya, dan penanggung jawabnya.\nWarna status: biru tua selesai, hijau sesuai rencana, kuning berisiko, merah terlambat.\n\nHIGHLIGHT\nYang terlambat adalah sambungan ke aplikasi keuangan, karena format datanya belum disepakati.\nPerbaikan jaringan gudang C menunggu keputusan yang kami minta hari ini."
+  },
+  {
+   "id": "gudang-c",
+   "layout": "statement",
+   "tone": "accent",
+   "kicker": "Gudang C",
+   "title": "Hampir separuh selisih stok datang dari gudang C, dan penyebabnya satu lorong.",
+   "points": [
+    {
+     "value": "44%",
+     "label": "selisih tiga gudang berasal dari gudang C"
+    },
+    {
+     "value": "61%",
+     "label": "selisih gudang C tercatat di lorong belakang"
+    },
+    {
+     "value": "1 pemancar",
+     "label": "tambahan yang kami usulkan"
+    }
+   ],
+   "covers": [
+    "R2"
+   ],
+   "notes": "KALIMAT BESAR\nIni temuan terpenting bulan ini.\nMasalah gudang C bukan tersebar, tetapi terkumpul di satu lorong.\n\nTIGA ANGKA\n46 dari 104 dus selisih ada di gudang C, sekitar 44%.\nDan 28 dari 46 itu ada di lorong belakang.\n\nPESAN\nSatu pemancar tambahan bisa menyelesaikan sebagian besar masalahnya."
+  },
+  {
+   "id": "denah",
+   "layout": "figure",
+   "kicker": "Gudang C",
+   "title": "Selisih gudang C terkumpul di lorong belakang, yang tidak terjangkau pemancar",
+   "covers": [
+    "R8"
+   ],
+   "image": "assets/denah-gudang-c.png",
+   "tag": "GAMBAR CONTOH",
+   "caption": "Denah gudang C dari laporan teknis jaringan. Rekaan.",
+   "points": [
+    {
+     "title": "Tiga pemancar, semuanya di depan",
+     "text": "Lorong belakang tidak terjangkau."
+    },
+    {
+     "title": "Data terlambat terkirim",
+     "text": "Pemindai menyimpan data sampai petugas kembali ke depan."
+    },
+    {
+     "title": "61% selisih gudang C ada di sini",
+     "text": "28 dari 46 dus selisih."
+    }
+   ],
+   "notes": "INTI\nSelisih gudang C bukan tersebar, tetapi terkumpul di satu tempat.\n\nPENJELASAN\nIni denah gudang C dari laporan teknis jaringan.\nTiga lingkaran hijau adalah pemancar; semuanya ada di bagian depan.\nArea oranye di atas adalah lorong belakang, tempat sinyalnya lemah.\n\nHIGHLIGHT\n28 dari 46 dus selisih tercatat di lorong belakang.\nKarena itu kami minta satu pemancar tambahan di sana."
+  },
+  {
+   "id": "per-lorong",
+   "layout": "table",
+   "kicker": "Selisih per lorong",
+   "title": "Semua lorong di bawah 0,6%, kecuali lorong belakang gudang C",
+   "covers": [
+    "R9"
+   ],
+   "perSlide": 12,
+   "head": [
+    "Gudang",
+    "Lorong",
+    "Dus masuk",
+    "Selisih (dus)",
+    "Selisih",
+    "Status"
+   ],
+   "widths": [
+    2,
+    2.4,
+    2,
+    2,
+    1.6,
+    2.6
+   ],
+   "rows": [
+    [
+     "Gudang A",
+     "Lorong A",
+     "2.100",
+     "8",
+     "0,4%",
+     {
+      "text": "Baik",
+      "status": "ok"
+     }
+    ],
+    [
+     "Gudang A",
+     "Lorong B",
+     "2.050",
+     "9",
+     "0,4%",
+     {
+      "text": "Baik",
+      "status": "ok"
+     }
+    ],
+    [
+     "Gudang A",
+     "Lorong C",
+     "2.110",
+     "7",
+     "0,3%",
+     {
+      "text": "Baik",
+      "status": "ok"
+     }
+    ],
+    [
+     "Gudang A",
+     "Lorong D",
+     "2.070",
+     "9",
+     "0,4%",
+     {
+      "text": "Baik",
+      "status": "ok"
+     }
+    ],
+    [
+     "Gudang B",
+     "Lorong A",
+     "1.300",
+     "5",
+     "0,4%",
+     {
+      "text": "Baik",
+      "status": "ok"
+     }
+    ],
+    [
+     "Gudang B",
+     "Lorong B",
+     "1.250",
+     "6",
+     "0,5%",
+     {
+      "text": "Baik",
+      "status": "ok"
+     }
+    ],
+    [
+     "Gudang B",
+     "Lorong C",
+     "1.290",
+     "4",
+     "0,3%",
+     {
+      "text": "Baik",
+      "status": "ok"
+     }
+    ],
+    [
+     "Gudang B",
+     "Lorong D",
+     "1.260",
+     "5",
+     "0,4%",
+     {
+      "text": "Baik",
+      "status": "ok"
+     }
+    ],
+    [
+     "Gudang B",
+     "Lorong E",
+     "1.270",
+     "5",
+     "0,4%",
+     {
+      "text": "Baik",
+      "status": "ok"
+     }
+    ],
+    [
+     "Gudang C",
+     "Lorong A",
+     "980",
+     "4",
+     "0,4%",
+     {
+      "text": "Baik",
+      "status": "ok"
+     }
+    ],
+    [
+     "Gudang C",
+     "Lorong B",
+     "1.010",
+     "5",
+     "0,5%",
+     {
+      "text": "Baik",
+      "status": "ok"
+     }
+    ],
+    [
+     "Gudang C",
+     "Lorong C",
+     "990",
+     "4",
+     "0,4%",
+     {
+      "text": "Baik",
+      "status": "ok"
+     }
+    ],
+    [
+     "Gudang C",
+     "Lorong D",
+     "960",
+     "5",
+     "0,5%",
+     {
+      "text": "Baik",
+      "status": "ok"
+     }
+    ],
+    [
+     "Gudang C",
+     "Lorong belakang",
+     "280",
+     "28",
+     "10,0%",
+     {
+      "text": "Perlu tindakan",
+      "status": "bad"
+     }
+    ],
+    [
+     "Total",
+     "14 lorong",
+     "18.920",
+     "104",
+     "0,55%",
+     ""
+    ]
+   ],
+   "highlight": [
+    13
+   ],
+   "total": true,
+   "note": "Selisih = dus selisih dibagi dus masuk di lorong itu, September 2026. Data rekaan.",
+   "notes": "INTI\nHanya satu lorong yang bermasalah: lorong belakang gudang C.\n\nPENJELASAN\nTabel ini memuat semua 14 lorong di tiga gudang, dan berlanjut ke slide berikutnya.\nKolom selisih adalah dus selisih dibagi dus masuk di lorong itu.\n\nHIGHLIGHT\nSemua lorong lain di bawah 0,6%.\nLorong belakang gudang C 10%, dan barisnya diberi warna di slide berikutnya."
+  },
+  {
+   "id": "peringatan",
+   "layout": "chart",
+   "kicker": "Peringatan",
+   "title": "Peringatan naik di minggu 3 karena pemindai rusak, lalu turun lagi",
+   "covers": [
+    "R10"
+   ],
+   "chart": {
+    "type": "bar",
+    "stacked": true,
+    "title": "Peringatan per jenis per minggu",
+    "categories": [
+     "Minggu 1",
+     "Minggu 2",
+     "Minggu 3",
+     "Minggu 4"
+    ],
+    "series": [
+     {
+      "name": "Jumlah tidak cocok",
+      "values": [
+       42,
+       38,
+       51,
+       36
+      ]
+     },
+     {
+      "name": "Rak salah",
+      "values": [
+       18,
+       15,
+       22,
+       14
+      ]
+     },
+     {
+      "name": "Label tidak terbaca",
+      "values": [
+       9,
+       11,
+       17,
+       8
+      ],
+      "color": "warn"
+     }
+    ],
+    "condition": "Peringatan di layar kepala gudang, tiga gudang, September 2026. Data rekaan."
+   },
+   "takeaway": {
+    "heading": "Yang terlihat",
+    "bullets": [
+     "Minggu 3 tertinggi: 90 peringatan.",
+     "Label tidak terbaca hampir dua kali lipat karena pemindai rusak.",
+     "Minggu 4 kembali ke 58."
+    ]
+   },
+   "notes": "INTI\nLonjakan peringatan di minggu 3 berasal dari pemindai yang rusak.\n\nPENJELASAN\nTiap batang adalah satu minggu, ditumpuk per jenis peringatan.\nWarna kuning adalah label tidak terbaca.\n\nHIGHLIGHT\nBagian kuning hampir dua kali lipat di minggu 3.\nSetelah dua pemindai diganti, angkanya turun lagi di minggu 4.",
+   "tone": "dark"
+  },
+  {
+   "id": "penutup",
+   "layout": "closing",
+   "kicker": "Keputusan dan rencana Oktober",
+   "title": "Satu keputusan hari ini dan tiga pekerjaan untuk Oktober",
+   "covers": [
+    "R11"
+   ],
+   "steps": [
+    {
+     "title": "Setujui satu pemancar untuk gudang C",
+     "text": "Untuk lorong belakang, tempat 61% selisihnya."
+    },
+    {
+     "title": "Selesaikan jaringan gudang D",
+     "text": "Lalu petugas mulai memakai pemindai."
+    },
+    {
+     "title": "Kirim ulang label rak gudang E",
+     "text": "Pengadaan memastikan jadwal baru."
+    },
+    {
+     "title": "Sepakati format data keuangan",
+     "text": "Bersama tim proyek dan bagian keuangan."
+    }
+   ],
+   "thanks": "Terima kasih",
+   "contact": "[Nama penyaji] · [email]",
+   "notes": "INTI\nKami minta satu keputusan hari ini, dan ada tiga pekerjaan untuk Oktober.\n\nPENJELASAN\nKeputusannya adalah pemancar tambahan untuk lorong belakang gudang C.\nTiga pekerjaan lain menyusul dari daftar status tadi.\n\nHIGHLIGHT\nTanpa pemancar itu, selisih gudang C akan tetap di atas 1%."
+  }
+ ]
+}
