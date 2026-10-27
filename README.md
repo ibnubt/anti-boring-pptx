@@ -30,7 +30,7 @@ and renders a fully editable `.pptx` with speaker notes on every slide.
 | Path | What it is |
 |---|---|
 | `SKILL.md` | the instructions the agent follows |
-| `scripts/deck.js` | the renderer: `deck.json` in, `.pptx` out, with lint (41 layouts) |
+| `scripts/deck.js` | the renderer: `deck.json` in, `.pptx` out, with lint (44 layouts; looks `bento`, `editorial`, `bold`) |
 | `scripts/extract_content.py` | outline, tables and chart data of a PDF, DOCX, PPTX, XLSX or Markdown file |
 | `scripts/qa.sh` | build, render to PDF, and tile contact sheets for a visual check |
 | `reference/layouts.md` | every layout, its kind and fields, lint messages, how to add a layout |
@@ -38,6 +38,7 @@ and renders a fully editable `.pptx` with speaker notes on every slide.
 | `reference/sources.md` | extraction, coverage, the fact list, what to do with each table, chart and picture |
 | `example/deck.json` | a 28-slide pilot deck, told as a proposal |
 | `example/report.json` | a 10-slide monthly report: summary, dashboard, status, a source figure, a two-slide table |
+| `example/proposal.json` | a 17-slide proposal in six parts, each opened by a section slide: summary tiles, price options, a week-by-week schedule, a separate thank-you slide |
 | `scripts/pptx_text.py` | text of any `.pptx`; `--diff` compares two decks |
 | `scripts/contact_sheet.py` | PDF pages to JPG, six per sheet |
 | `scripts/extract_images.py` | the pictures inside a PDF, PPTX or DOCX, with where each appears |
@@ -71,6 +72,7 @@ In the Claude apps, upload the folder as a zip where custom skills are managed.
 
 ```bash
 node scripts/deck.js example/report.json /tmp/report.pptx
+bash scripts/qa.sh example/proposal.json /tmp/proposal-qa/proposal-v1.pptx
 bash scripts/qa.sh example/deck.json /tmp/example-qa/example-v1.pptx
 python3 scripts/extract_content.py some-report.pdf /tmp/some-report
 ```
@@ -103,5 +105,8 @@ laporan bulanan atau proyek, status pekerjaan, ringkasan, paparan kajian, materi
 usulan. Seluruh isi dokumen dibawa: tiap bagian dicek masuk slide, tabel dan data grafik dipakai
 ulang secara native, gambar dipakai ulang. Slide diisi tanpa ruang kosong, dan layoutnya
 bervariasi agar tidak terlihat seperti buatan AI. Hasilnya berkas `.pptx` yang bisa disunting,
-dengan catatan penyaji di tiap slide. Skill ini ditulis untuk Claude dan paling baik dipakai dengan Claude. Cara pasang
+dengan catatan penyaji di tiap slide. Tampilan default `bento`: slide putih, kartu abu-abu
+bersudut bulat, satu warna biru, logo di kanan atas, tanpa nomor halaman. Proposal disusun per
+bagian (Executive Summary, Masalah, Solusi, Arsitektur, Harga, Implementasi), tiap bagian dibuka
+satu slide pembatas, dan ditutup slide terima kasih tersendiri. Skill ini ditulis untuk Claude dan paling baik dipakai dengan Claude. Cara pasang
 dan cara mencoba ada di atas.

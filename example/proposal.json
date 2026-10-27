@@ -1,0 +1,224 @@
+{
+  "meta": {
+    "title": "Contoh proposal: stok digital untuk sembilan gudang",
+    "author": "PT Contoh",
+    "lang": "id-ID",
+    "mode": "read"
+  },
+  "brand": {
+    "name": "PT Contoh",
+    "style": "bento",
+    "footer": "Contoh proposal · semua angka adalah data rekaan"
+  },
+  "slides": [
+    {
+      "id": "cover", "layout": "cover",
+      "kicker": "Proposal Solusi",
+      "title": "Stok Digital",
+      "subtitle": "Pencatatan stok dengan pemindai untuk sembilan gudang berikutnya, berdasarkan uji coba di tiga gudang.",
+      "chips": [
+        { "icon": "LuScanBarcode", "label": "Pemindai genggam" },
+        { "icon": "LuTags", "label": "Label rak" },
+        { "icon": "LuWifi", "label": "Jaringan nirkabel" },
+        { "icon": "LuLayoutDashboard", "label": "Layar kepala gudang" }
+      ],
+      "facts": [
+        { "label": "Disusun untuk", "value": "[Nama Direksi]" },
+        { "label": "Oleh", "value": "PT Contoh" },
+        { "label": "Tanggal", "value": "[Bulan Tahun]" }
+      ],
+      "panel": {
+        "image": "assets/denah-gudang-c.png", "focus": [0.45, 0.5], "caption": "Denah gudang C, salah satu gudang uji coba",
+        "stats": [
+          { "value": "0,9%", "label": "selisih stok selama uji coba, turun dari 4,1%" },
+          { "value": "9", "label": "gudang dalam usulan perluasan ini" }
+        ]
+      },
+      "notes": "Kami mengusulkan pencatatan stok dengan pemindai untuk sembilan gudang berikutnya.\nUsulan ini berdiri di atas uji coba tiga bulan di tiga gudang: selisih stok turun dari 4,1% menjadi 0,9%."
+    },
+    {
+      "id": "agenda", "layout": "agenda", "title": "Daftar isi",
+      "items": [
+        { "title": "Executive Summary", "text": "Proposal dalam satu halaman." },
+        { "title": "Masalah", "text": "Mengapa catatan tangan membuat stok tidak cocok." },
+        { "title": "Solusi", "text": "Pemindai, label rak, dan layar kepala gudang." },
+        { "title": "Arsitektur", "text": "Bagaimana alat di gudang terhubung ke pusat." },
+        { "title": "Harga", "text": "Opsi beli putus atau sewa bulanan." },
+        { "title": "Implementasi", "text": "Jadwal, tahapan, dan yang perlu disiapkan." }
+      ],
+      "notes": "Proposal ini terdiri dari enam bagian: ringkasan, masalah, solusi, arsitektur, harga, dan implementasi.\nSetiap bagian dibuka dengan satu slide pembatas."
+    },
+    {
+      "id": "bagian-1", "layout": "section", "number": "01", "title": "Executive Summary",
+      "subtitle": "Proposal dalam satu halaman.",
+      "items": ["Masalah yang diselesaikan", "Solusi dan hasil uji coba", "Nilai dan opsi kontrak", "Langkah berikut"],
+      "notes": "Bagian pertama: seluruh proposal dalam satu halaman, untuk yang hanya sempat membaca satu slide."
+    },
+    {
+      "id": "ringkasan", "layout": "bento",
+      "title": "Pemindai menurunkan selisih stok di tiga gudang; kami usulkan untuk sembilan gudang lain",
+      "panel": {
+        "heading": "Inti proposal",
+        "text": "Setiap barang dicatat dengan pemindai saat masuk dan keluar, sehingga stok di catatan sama dengan isi gudang.",
+        "numbers": [
+          { "value": "0,9%", "label": "selisih stok selama uji coba, dari 4,1%" },
+          { "value": "9", "label": "gudang dalam usulan perluasan" },
+          { "value": "16", "label": "minggu hingga gudang terakhir berjalan" }
+        ]
+      },
+      "blocks": [
+        { "icon": "LuTriangleAlert", "title": "Masalah", "bullets": ["Jumlah barang ditulis tangan dua kali", "Letak barang tidak tercatat", "Menghitung stok menutup gudang dua hari"] },
+        { "icon": "LuCpu", "title": "Solusi", "bullets": ["Pemindai genggam dan label di setiap rak", "Pemancar nirkabel ke server pusat", "Layar stok untuk kepala gudang"] },
+        { "icon": "LuReceipt", "title": "Nilai kontrak", "bullets": ["Opsi beli putus atau sewa bulanan", "Harga per gudang diisi setelah survei", "Belum termasuk PPN"] },
+        { "icon": "LuMilestone", "title": "Langkah berikut", "bullets": ["Setujui perluasan dan opsi kontrak", "Survei tiga gudang tahap pertama", "Pasang alat bertahap, tiga gudang sekaligus"] }
+      ],
+      "notes": "KIRI\nIntinya: setiap barang dicatat dengan pemindai, sehingga catatan sama dengan isi gudang.\nTiga angka: selisih turun ke 0,9%, sembilan gudang diusulkan, dan semuanya berjalan dalam 16 minggu.\n\nKANAN\nMasalahnya catatan tangan; solusinya pemindai dan layar stok; kontraknya beli putus atau sewa; langkah berikutnya keputusan dan survei.\n\nPESAN\nKeputusan yang diminta hari ini ada di kotak kanan bawah."
+    },
+    {
+      "id": "bagian-2", "layout": "section", "number": "02", "title": "Masalah",
+      "subtitle": "Mengapa stok di catatan tidak cocok dengan isi gudang.",
+      "items": ["Salah tulis", "Letak barang", "Catatan terlambat", "Hitung stok", "Data per gudang", "Laporan manual"],
+      "notes": "Bagian kedua: enam sebab stok di catatan tidak cocok dengan isi gudang, dari pengamatan sebelum uji coba."
+    },
+    {
+      "id": "masalah", "layout": "icon-grid",
+      "title": "Dengan catatan tangan, kesalahan muncul di setiap titik alur barang",
+      "items": [
+        { "icon": "LuPencilLine", "title": "Jumlah salah tulis", "body": "Angka disalin dari surat jalan ke buku, lalu ke komputer." },
+        { "icon": "LuPackageSearch", "title": "Letak barang tidak tercatat", "body": "Barang dicari dengan bertanya ke petugas yang menaruhnya." },
+        { "icon": "LuClock", "title": "Barang keluar terlambat dicatat", "body": "Catatan dibuat di akhir giliran kerja, bukan saat barang keluar." },
+        { "icon": "LuCalculator", "title": "Hitung stok makan dua hari", "body": "Gudang berhenti melayani selama stok dihitung." },
+        { "icon": "LuWarehouse", "title": "Data per gudang terpisah", "body": "Setiap gudang memakai berkas sendiri, tanpa gambaran gabungan." },
+        { "icon": "LuFileSpreadsheet", "title": "Laporan disusun manual", "body": "Rekap bulanan memakan waktu dan sulit ditelusuri." }
+      ],
+      "band": { "lead": "Akibatnya", "text": "stok di catatan lebih besar dari isi gudang, dan pengiriman tertunda setiap akhir bulan." },
+      "notes": "Enam celah dari pengamatan di tiga gudang sebelum uji coba.\nBaris atas soal mencatat: salah tulis, letak barang, dan catatan yang terlambat.\nBaris bawah soal menghitung dan melapor.\n\nPITA GELAP\nAkibatnya stok di catatan selalu lebih besar dari isi gudang."
+    },
+    {
+      "id": "bagian-3", "layout": "section", "number": "03", "title": "Solusi",
+      "subtitle": "Pemindai, label rak, dan layar stok.",
+      "items": ["Empat langkah barang masuk", "Hasil uji coba", "Alat yang dipasang"],
+      "notes": "Bagian ketiga: cara kerja solusi, hasilnya di uji coba, dan alat yang dipasang."
+    },
+    {
+      "id": "cara-kerja", "layout": "process",
+      "title": "Setiap barang masuk dicatat dalam empat langkah, tanpa ditulis tangan",
+      "steps": [
+        { "title": "Truk tiba", "text": "Daftar barang muncul di layar." },
+        { "title": "Barang dipindai", "text": "Jumlahnya dibandingkan dengan surat jalan." },
+        { "title": "Barang ditaruh", "text": "Letak barang ikut tercatat." },
+        { "title": "Stok bertambah", "text": "Terlihat di layar kepala gudang." }
+      ],
+      "lastStrong": true,
+      "list": { "heading": "Tiga cara menjaga angka tetap benar", "items": ["Jumlah dari pemindai, bukan diketik", "Selisih langsung memunculkan peringatan", "Data disimpan saat jaringan putus"] },
+      "notes": "EMPAT KARTU\nIni empat langkah saat barang masuk; panah berarti lalu.\nTruk tiba, tiap dus dipindai, letaknya tercatat, lalu stok bertambah sendiri.\n\nBAWAH\nTiga cara angka tetap benar.\n\nPESAN\nTidak ada angka yang ditulis tangan di sepanjang alur ini."
+    },
+    {
+      "id": "hasil", "layout": "big-number",
+      "title": "Di uji coba, selisih stok turun dari 4,1% menjadi 0,9%",
+      "number": "0,9%",
+      "label": "selisih stok bulanan selama uji coba, rata-rata tiga gudang",
+      "body": ["Sebelum uji coba, selisih rata-rata 4,1% per bulan.", "Penurunan terjadi di ketiga gudang, bukan hanya satu."],
+      "stats": [{ "value": "4,1%", "label": "sebelum uji coba" }, { "value": "3 dari 12", "label": "gudang diuji" }, { "value": "3 bulan", "label": "lama uji coba" }],
+      "source": "Selisih stok = beda antara jumlah di catatan dan hasil hitung, dibagi jumlah di catatan. Data rekaan.",
+      "notes": "ANGKA BESAR\nSelama uji coba selisih stok rata-rata 0,9% per bulan; sebelumnya 4,1%.\n\nKANAN\nPenurunan terjadi di ketiga gudang.\n\nPESAN\nIni dasar usulan perluasan ke sembilan gudang lain."
+    },
+    {
+      "id": "alat", "layout": "gallery",
+      "title": "Empat alat yang dipasang di setiap gudang",
+      "items": [
+        { "image": "assets/pemindai.png", "title": "Pemindai genggam", "caption": "Dibawa petugas untuk memindai dus dan label rak." },
+        { "image": "assets/label-rak.png", "title": "Label rak", "caption": "Satu label untuk setiap rak, dipasang di tiang rak." },
+        { "image": "assets/layar.png", "title": "Layar kepala gudang", "caption": "Menampilkan stok, selisih, dan peringatan." },
+        { "image": "assets/pemancar.png", "title": "Pemancar nirkabel", "caption": "Menghubungkan pemindai ke server di seluruh area gudang." }
+      ],
+      "notes": "Empat alat ini dipasang di setiap gudang.\nPemindai dibawa petugas, label dipasang di setiap rak, layar ada di ruang kepala gudang, dan pemancar menghubungkan semuanya.\n\nPESAN\nSemua alat sudah dipakai selama uji coba."
+    },
+    {
+      "id": "bagian-4", "layout": "section", "number": "04", "title": "Arsitektur",
+      "subtitle": "Bagaimana alat di gudang terhubung ke pusat.",
+      "items": ["Susunan alat per gudang", "Aliran data ke pusat"],
+      "notes": "Bagian keempat: susunan alat dan aliran data dari gudang ke kantor pusat."
+    },
+    {
+      "id": "susunan", "layout": "diagram",
+      "title": "Pemindai mengirim data lewat pemancar ke server, lalu tampil di layar kepala gudang",
+      "groups": [{ "label": "Di setiap gudang", "nodes": ["pemindai", "label", "pemancar"] }, { "label": "Kantor pusat", "nodes": ["server", "layar"] }],
+      "nodes": [
+        { "id": "pemindai", "row": 0, "col": 0, "image": "assets/pemindai.png", "title": "Pemindai genggam", "text": "Memindai dus dan label rak." },
+        { "id": "label", "row": 1, "col": 0, "icon": "LuTags", "title": "Label rak", "text": "Satu label untuk setiap rak." },
+        { "id": "pemancar", "row": 0, "col": 1, "image": "assets/pemancar.png", "title": "Pemancar nirkabel", "text": "Menjangkau seluruh area gudang." },
+        { "id": "server", "row": 0, "col": 2, "icon": "LuServer", "title": "Server stok", "text": "Menyimpan stok dan letak barang.", "strong": true },
+        { "id": "layar", "row": 1, "col": 2, "image": "assets/layar.png", "title": "Layar kepala gudang", "text": "Stok, selisih, dan peringatan." }
+      ],
+      "links": [{ "from": "label", "to": "pemindai", "dash": true, "arrow": false }, { "from": "pemindai", "to": "pemancar" }, { "from": "pemancar", "to": "server" }, { "from": "server", "to": "layar" }],
+      "key": [{ "arrow": true, "label": "data dikirim ke" }, { "arrow": true, "dash": true, "label": "garis putus = dipindai" }],
+      "notes": "Kotak kiri adalah isi setiap gudang, kotak kanan kantor pusat; panah berarti data dikirim ke.\nPemindai membaca label rak, lalu mengirim datanya lewat pemancar ke server.\n\nPESAN\nGudang baru cukup mengulang isi kotak kiri."
+    },
+    {
+      "id": "bagian-5", "layout": "section", "number": "05", "title": "Harga",
+      "subtitle": "Beli putus atau sewa bulanan.",
+      "items": ["Dua opsi kontrak", "Yang termasuk dalam harga", "Asumsi harga"],
+      "notes": "Bagian kelima: dua opsi kontrak, apa yang termasuk, dan asumsinya."
+    },
+    {
+      "id": "harga", "layout": "options",
+      "title": "Sembilan gudang dengan dua opsi: sewa bulanan atau beli putus",
+      "options": [
+        { "label": "Opsi 1", "title": "Sewa 3 tahun", "price": "Rp [...]", "unit": "/ bulan", "note": "Alat diganti bila rusak selama kontrak", "facts": [{ "label": "Total nilai kontrak", "value": "Rp [...]" }, { "label": "Jumlah pembayaran", "value": "36 bulan" }], "strong": true },
+        { "label": "Opsi 2", "title": "Beli putus", "price": "Rp [...]", "unit": "sekali bayar", "note": "Dukungan teknis dibayar per tahun", "facts": [{ "label": "Dukungan teknis", "value": "Rp [...] / tahun" }, { "label": "Garansi alat", "value": "1 tahun" }] }
+      ],
+      "includes": {
+        "heading": "Termasuk dalam harga",
+        "items": [
+          { "icon": "LuScanBarcode", "text": "Pemindai genggam dan baterai cadangan" },
+          { "icon": "LuTags", "text": "Label untuk setiap rak" },
+          { "icon": "LuWifi", "text": "Pemancar nirkabel per gudang" },
+          { "icon": "LuHeadset", "text": "Pelatihan dan pendampingan satu bulan" }
+        ]
+      },
+      "assumptions": { "heading": "Asumsi", "items": ["Harga belum termasuk PPN 11%", "Jumlah alat final setelah survei", "Jaringan kantor pusat sudah ada"] },
+      "notes": "ATAS\nDua opsi kontrak. Sewa tiga tahun dibayar bulanan dan alat diganti bila rusak; beli putus dibayar sekali, dukungan teknis per tahun.\nAngka diisi setelah survei.\n\nBAWAH\nYang termasuk dan asumsinya."
+    },
+    {
+      "id": "bagian-6", "layout": "section", "number": "06", "title": "Implementasi",
+      "subtitle": "Dari survei sampai gudang terakhir berjalan.",
+      "items": ["Jadwal 16 minggu", "Tiga tahap perluasan", "Langkah berikut"],
+      "notes": "Bagian terakhir: jadwal perluasan sembilan gudang dalam 16 minggu, dan langkah yang perlu diputuskan."
+    },
+    {
+      "id": "jadwal", "layout": "gantt",
+      "title": "Sembilan gudang berjalan dalam 16 minggu, tiga gudang sekaligus",
+      "units": 16,
+      "groups": [{ "label": "Bulan 1", "span": 4 }, { "label": "Bulan 2", "span": 4 }, { "label": "Bulan 3", "span": 4 }, { "label": "Bulan 4", "span": 4 }],
+      "heads": ["Tahap", "Aktivitas"],
+      "rows": [
+        { "group": "Persiapan", "label": "Survei sembilan gudang", "from": 1, "to": 3 },
+        { "group": "Persiapan", "label": "Pengadaan alat", "from": 2, "to": 6 },
+        { "group": "Tahap 1", "label": "Gudang D, E, F", "from": 5, "to": 8 },
+        { "group": "Tahap 2", "label": "Gudang G, H, I", "from": 9, "to": 12 },
+        { "group": "Tahap 3", "label": "Gudang J, K, L", "from": 13, "to": 15 },
+        { "group": "Selesai", "label": "Semua gudang berjalan", "from": 16, "to": 16, "tag": "Live" }
+      ],
+      "milestones": [
+        { "label": "Minggu 3", "text": "Survei selesai, jumlah alat final" },
+        { "label": "Minggu 8", "text": "Tiga gudang terbesar berjalan" },
+        { "label": "Minggu 16", "text": "Kesembilan gudang memakai pemindai", "strong": true },
+        { "label": "Sesudahnya", "text": "Sambungan ke aplikasi keuangan" }
+      ],
+      "notes": "Minggu 1 dihitung sejak keputusan.\nSurvei dan pengadaan di bulan pertama, lalu tiga gudang sekaligus setiap bulan.\n\nBAWAH\nEmpat penanda; di minggu 16 kesembilan gudang sudah memakai pemindai."
+    },
+    {
+      "id": "penutup", "layout": "closing",
+      "thanks": "Terima kasih.",
+      "title": "Kami siap memulai survei begitu perluasan disetujui.",
+      "steps": [
+        { "title": "Setujui perluasan", "text": "Sembilan gudang, tiga tahap, dan opsi kontrak." },
+        { "title": "Tetapkan tahap pertama", "text": "Usulan kami: gudang D, E, dan F." },
+        { "title": "Mulai survei", "text": "Untuk menghitung jumlah pemindai dan label rak." }
+      ],
+      "contact": { "name": "PT Contoh", "lines": [{ "icon": "LuUser", "text": "[Nama penyaji]" }, { "icon": "LuMail", "text": "[email]" }, { "icon": "LuPhone", "text": "[telepon]" }] },
+      "notes": "Terima kasih.\nTiga langkah berikutnya: setujui perluasan, tetapkan gudang tahap pertama, lalu kami mulai survei."
+    }
+  ]
+}

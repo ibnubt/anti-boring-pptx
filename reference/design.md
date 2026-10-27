@@ -4,7 +4,7 @@ Read this with step 3. SKILL.md has the rules; this file has the reasons, the de
 treatments for pictures, logos and wording.
 
 Contents: why decks turn monotonous · the five kinds and the rhythm · one focal element · frame and
-tone · the editorial look · borrowed pictures · marking a screenshot · logos · visual finish · plain
+tone · the bento look · the editorial look · borrowed pictures · marking a screenshot · logos · visual finish · plain
 words · tables
 
 ## Why decks turn monotonous
@@ -67,9 +67,11 @@ largest thing on the slide.
 
 ## Frame and tone
 
-- The masthead is the same on every slide: the company logo at the top left, a hairline under it,
-  and the part of the deck at the top right when the slide opens a part. No page numbers and no
-  footer band: the bottom of the slide belongs to the content.
+- The masthead is the same on every slide. Bento: the logos at the top right and the part of the
+  deck as a small eyebrow in the accent at the top left, above the title, without a hairline.
+  Editorial: the company logo at the top left, a hairline under it, and the part of the deck at
+  the top right when the slide opens a part. No page numbers (people reorder slides, and every
+  move would renumber them) and no footer band: the bottom of the slide belongs to the content.
 - The kicker is a signpost for the first slide of a part; it is not repeated on every slide.
 - Statement, photo and section slides drop the card grid entirely: the sentence or the picture is
   the slide.
@@ -79,6 +81,41 @@ largest thing on the slide.
 - Write with words, not symbol shorthand. Arrows "→", middle dots "·", tildes and dashes standing
   for words in titles and body text make a slide read as generated; write "from 9 days to 1",
   "about 600", "A and B". Arrows belong in drawings, where they mean "then" or "feeds into".
+
+## The bento look
+
+The default. It comes from a client's reactions to proposal decks: a light masthead band over dark
+slides read as a clash between header and content, airy statement slides read as empty and
+long-winded, coloured stripes and a tab strip of sections across the top read as cheap. What they
+accepted: white slides, content on rounded tiles, near-black type, one blue, section slides
+instead of tabs, a separate thank-you slide. The vocabulary is Apple's product pages.
+
+- **Neutrals and one blue.** The `apple` theme: white slides, tiles in `F5F5F7`, text `1D1D1F`,
+  secondary text `6E6E73` and `86868B`, hairlines `D2D2D7`, and one accent `0071E3` (a brighter
+  `2997FF` on dark tiles). No second hue; `warn` and `bad` only for state. `brand.colors`
+  overrides any of them; a brand with its own accent keeps the rest neutral.
+- **Tiles, not stripes.** Content sits on flat tiles with round corners, a light grey on a white
+  slide and white on a grey one. One tile per slide may be dark: the core claim, the recommended option,
+  the step that matters. No borders, no shadows, no coloured edges, no gradients. Cropped photos
+  get the same round corners; a photo that runs to the slide's edge stays square.
+- **Type.** Headlines in bold Aptos with slightly tight tracking, 28 pt on content slides and up to
+  76 pt on the cover; body in Aptos; the eyebrow and labels in Aptos SemiBold in the accent.
+- **The part as eyebrow, the part as a slide.** Every content slide carries its part's name above
+  the title (the `kicker`, or else the title of the last `section` slide), so nothing is needed
+  across the top to show where the reader is. Each part opens with a `section` slide in light grey:
+  "Bagian 01", the part's name large, one line on what it is for, and a white tile listing what the
+  part holds.
+- **Icons in discs, on tiles.** An item's icon sits in a white disc on its grey tile (a blue disc
+  for the item that matters). It belongs to the tile; a row of discs floating on the page is still
+  the generated look.
+- **Logos on light ground only.** The logos sit at the top right of every light slide, as the
+  brand supplied them. A dark slide shows them only in the brand's own dark version, and leaves
+  them off otherwise; there is no light band across a dark slide. Prefer light slides with a dark
+  tile to fully dark slides when the logos must show.
+- **Dense, not airy.** A proposal is read as much as heard: fill the tiles, let the dark tile carry
+  the numbers, and say the point in the title. Rhythm comes from the tiles (a dark one, a photo, a
+  chart) more than from dark backgrounds, so lint counts a light slide with a large dark tile as a
+  change of tone.
 
 ## The editorial look
 

@@ -55,17 +55,23 @@ function mix(a, b, t) {
 }
 const hex = v => String(v || '').replace('#', '').toUpperCase();
 const bc = B.colors || {};
-/* The look is editorial: a paper page, near-black ink, one accent, hairlines instead of boxes.
+/* brand.style: "bento" (the default: white slides, rounded tiles in a light grey, headlines in bold
+ * Aptos, one blue accent, the logos at the top right), "editorial" (a paper page, headlines in the
+ * serif, hairlines instead of boxes) or "bold" (editorial with headlines in heavy Aptos in the deep
+ * colour, the look of a corporate infographic deck).
  * brand.theme picks one of the colour themes below; brand.colors overrides any of its colours:
  * primary (dark slides, strong blocks), accent (the one thing a slide is about), warn, paper, ink. */
+const STYLE = B.style === 'bold' ? 'bold' : B.style === 'editorial' ? 'editorial' : 'bento';
+const BENTO = STYLE === 'bento';
 const THEMES = {
+  apple:    { paper: 'FFFFFF', ink: '1D1D1F', primary: '1D1D1F', accent: '0071E3', warn: 'C27C0E', tint: 'F5F5F7' },  // white, near black, one blue (bento default)
   paper:    { paper: 'F4F1EA', ink: '1B1A17', primary: '24272B', accent: 'B4441C', warn: 'C98A1B' },  // warm paper, charcoal, terracotta
   ocean:    { paper: 'F2F4F5', ink: '111C24', primary: '0F3345', accent: '0A7AAB', warn: 'CC8A1E' },  // cool white, deep sea blue
   forest:   { paper: 'F1F1EA', ink: '181D19', primary: '1D3A2F', accent: '4C7A3D', warn: 'C2841A' },  // pale stone, deep green, moss
   graphite: { paper: 'F7F7F5', ink: '111111', primary: '1C1C1E', accent: '0066CC', warn: 'C27C0E' },  // near white, graphite, one blue
   navy:     { paper: 'F5F3EE', ink: '141A26', primary: '16233A', accent: 'A87C32', warn: 'C8612A' },  // ivory, navy, muted gold
 };
-const THEME = THEMES[B.theme] || THEMES.paper;
+const THEME = THEMES[B.theme] || (BENTO ? THEMES.apple : THEMES.paper);
 const PRIMARY = hex(bc.primary) || THEME.primary;
 const ACCENT = hex(bc.accent) || THEME.accent;
 const WARN = hex(bc.warn) || THEME.warn;
@@ -75,9 +81,10 @@ const INK = hex(bc.ink) || THEME.ink;
 const nt = t => mix(INK, PAPER, t);
 const C = {
   deep: PRIMARY, deep2: mix(PRIMARY, 'FFFFFF', 0.08), deepLine: mix(PRIMARY, 'FFFFFF', 0.24), deepest: mix(PRIMARY, '000000', 0.28),
-  accent: ACCENT, accentTint: mix(ACCENT, PAPER, 0.88), accentLight: mix(ACCENT, 'FFFFFF', 0.45),
+  // on dark tiles the bento accent stays a saturated blue (Apple's 2997FF against 0071E3), not a pastel
+  accent: ACCENT, accentTint: mix(ACCENT, PAPER, 0.9), accentLight: mix(ACCENT, 'FFFFFF', BENTO ? 0.18 : 0.45),
   warn: WARN, warnTint: mix(WARN, PAPER, 0.8), warnDark: mix(WARN, '000000', 0.5),
-  tint: hex(bc.tint) || mix(PAPER, INK, 0.05),
+  tint: hex(bc.tint) || (!bc.paper && THEME.tint) || mix(PAPER, INK, 0.05),
   ink: INK, muted: nt(0.32), source: nt(0.44), paper: PAPER,
   white: 'FFFFFF', line: nt(0.86), rule: nt(0.74), grey: mix(PAPER, INK, 0.07), greyLine: nt(0.72),
   idle: nt(0.6), bad: hex(bc.bad) || 'B42318',
@@ -97,16 +104,15 @@ const APTOS = { r: findFont(['Aptos.ttf', 'aptos.ttf']), b: findFont(['Aptos-Bol
 const SERIF = { r: findFont(['Georgia.ttf', 'georgia.ttf']), i: findFont(['Georgia Italic.ttf', 'georgiai.ttf', 'Georgia_Italic.ttf']) };
 const CUSTOM = B.fonts && (B.fonts.head || B.fonts.body);
 const USE_APTOS = !CUSTOM && !process.env.DECK_ARIAL && APTOS.r && APTOS.b && APTOS.d && APTOS.n;
-/* brand.style: "editorial" (headlines in the serif; the default) or "bold" (headlines in heavy Aptos in the
- * deep colour, the look of a corporate infographic deck). */
-const STYLE = B.style === 'bold' ? 'bold' : 'editorial';
-const HEAD = (B.fonts && B.fonts.head) || (STYLE === 'bold' ? 'Aptos' : 'Georgia');
+/* Headlines: the serif in the editorial style, heavy Aptos in the bold and bento styles. */
+const SANS_HEAD = STYLE !== 'editorial';
+const HEAD = (B.fonts && B.fonts.head) || (SANS_HEAD ? 'Aptos' : 'Georgia');
 // big numbers are set in Aptos Light: its figures line up (Georgia's old-style figures dance at display sizes)
 const FONT = USE_APTOS ? { d: 'Aptos SemiBold', n: 'Aptos Light', h: HEAD, b: 'Aptos', m: 'Consolas' }
   : { d: (B.fonts && B.fonts.body) || 'Arial', n: (B.fonts && B.fonts.body) || 'Arial', h: HEAD, b: (B.fonts && B.fonts.body) || 'Arial', m: 'Courier New' };
 /* weight-named families (Aptos SemiBold) are set without the bold flag, or PowerPoint fakes a bolder cut;
  * the serif is set in its regular weight */
-const FONT_BOLD = { d: !USE_APTOS, n: false, h: STYLE === 'bold' && !(B.fonts && B.fonts.head) };
+const FONT_BOLD = { d: !USE_APTOS, n: false, h: SANS_HEAD && !(B.fonts && B.fonts.head) };
 /* The type scale. Fitted text steps down through these sizes only, so the same sizes recur from slide
  * to slide instead of every slide finding its own. */
 const SCALE = [200, 170, 150, 130, 120, 110, 96, 88, 72, 60, 52, 44, 40, 36, 32, 28, 24, 22, 20, 18, 16, 15, 14, 13, 12, 11, 10.5, 10, 9.5, 9, 8.5, 8];
@@ -114,11 +120,11 @@ const sizesIn = (max, min) => { const xs = SCALE.filter(v => v <= max + 1e-6 && 
 const LANG = (deck.meta && deck.meta.lang) || 'en-US';
 /* Words the renderer supplies itself follow the deck language; override any of them in meta.labels. */
 const LBL = Object.assign(/^id/i.test(LANG)
-  ? { illustration: 'ILUSTRASI · ANGKA CONTOH', screenshot: 'CONTOH TAMPILAN', takeaway: 'Yang terlihat', result: 'Hasil:', image: 'gambar',
+  ? { part: 'Bagian', inThisPart: 'DI BAGIAN INI', next: 'Langkah berikut', illustration: 'ILUSTRASI · ANGKA CONTOH', screenshot: 'CONTOH TAMPILAN', takeaway: 'Yang terlihat', result: 'Hasil:', image: 'gambar',
       status: { done: 'Selesai', ok: 'Sesuai rencana', risk: 'Berisiko', late: 'Terlambat', idle: 'Belum mulai' },
       statusHead: { name: 'Pekerjaan', status: 'Status', progress: 'Progres', text: 'Keterangan', owner: 'PIC' },
       continued: 'lanjutan', continuedNotes: 'Tabel ini lanjutan dari slide sebelumnya.\nRujuk barisnya bila ditanya; tidak perlu dibacakan satu per satu.' }
-  : { illustration: 'ILLUSTRATION · EXAMPLE DATA', screenshot: 'SCREENSHOT', takeaway: 'What it shows', result: 'Result:', image: 'image',
+  : { part: 'Part', inThisPart: 'IN THIS PART', next: 'Next steps', illustration: 'ILLUSTRATION · EXAMPLE DATA', screenshot: 'SCREENSHOT', takeaway: 'What it shows', result: 'Result:', image: 'image',
       status: { done: 'Done', ok: 'On track', risk: 'At risk', late: 'Late', idle: 'Not started' },
       statusHead: { name: 'Work item', status: 'Status', progress: 'Progress', text: 'Note', owner: 'Owner' },
       continued: 'continued', continuedNotes: 'This table continues from the previous slide.\nRefer to its rows when asked; there is no need to read them out one by one.' },
@@ -165,7 +171,7 @@ const faces = {};
   // the serif for headlines and numbers; a custom head face or a missing Georgia is measured as the bold sans
   const serif = () => {
     if (B.fonts && B.fonts.head) { faces.h = faces.d; faces.hi = faces.d; return; }
-    if (STYLE === 'bold') { faces.h = faces.b; faces.hi = faces.r; return; }
+    if (SANS_HEAD) { faces.h = faces.b; faces.hi = faces.r; return; }
     try { faces.h = load(SERIF.r); faces.hi = SERIF.i ? load(SERIF.i) : faces.h; } catch (e) { faces.h = faces.d; faces.hi = faces.d; }
   };
   if (USE_APTOS) {
@@ -242,8 +248,8 @@ function measureT(content, w, o, size) {
     let f = r.f || o.f || 'b';
     // with Aptos the deck uses three weights only: Regular, SemiBold for anything bold, ExtraBold for big numbers
     if (USE_APTOS && f === 'b' && (r.b !== undefined ? r.b : !!o.b)) f = 'd';
-    // in the bold style an italic caption is set in the body face, not in the heavy headline face
-    if (STYLE === 'bold' && f === 'h' && (r.i !== undefined ? r.i : !!o.i)) f = 'b';
+    // in the bold and bento styles an italic caption is set in the body face, not in the heavy headline face
+    if (SANS_HEAD && f === 'h' && (r.i !== undefined ? r.i : !!o.i)) f = 'b';
     return { t: String(r.t), f, sz: r.sz || size, c: r.c || o.c || C.ink, b: f in FONT_BOLD ? FONT_BOLD[f] : (r.b !== undefined ? r.b : !!o.b), i: r.i !== undefined ? !!r.i : !!o.i, cs: r.cs || o.cs || 0, br: !!r.br, bullet: !!r.bullet };
   });
   const maxSz = Math.max(...runs.map(r => r.sz));
@@ -334,12 +340,19 @@ function shape(s, type, x, y, w, h, o = {}) {
   // Hairline borders around light cards make every slide look like a form. A light card is a flat
   // tile on the paper, without border or shadow (o.keepLine keeps the border where it carries meaning).
   if (o.line && o.line === C.line && !o.keepLine && !o.dash) o = { ...o, line: undefined };
+  // bento: every card is a rounded tile; full-width strips, overlays and marks stay square (o.square)
+  if (BENTO && type === 'rect' && o.fill && !o.alpha && !o.square && w * h >= 0.9 && Math.min(w, h) >= 0.3 && w < W - 0.2) {
+    type = 'roundRect';
+    if (o.r === undefined) o = { ...o, r: Math.min(0.2, Math.min(w, h) * 0.14) };
+  }
+  if (cur && o.fill && !o.alpha && lum(o.fill) < 0.2 && w * h >= 3) cur.darkTile = true;
   if (o.fill) sh.fill = o.alpha ? { color: o.fill, transparency: o.alpha } : { color: o.fill };
   if (o.line) sh.line = { color: o.line, width: o.lw || 1, dashType: o.dash };
   if (o.r !== undefined) sh.rectRadius = o.r;
   // cards and panels get a subtle diagonal gradient instead of a flat fill; stripes on their edges are
   // not used (a gradient towards a warm or red tint marks a card that needs attention)
-  const g = (type === 'rect' || type === 'roundRect') && o.fill && !o.alpha && !o.noGrad && w * h >= 0.9 && Math.min(w, h) >= 0.3 ? gradTo(o.fill, o.grad) : null;
+  // (bento tiles are flat, like Apple's: a gradient only where a layout asks for one to mark state)
+  const g = (type === 'rect' || type === 'roundRect') && o.fill && !o.alpha && !o.noGrad && (!BENTO || o.grad) && w * h >= 0.9 && Math.min(w, h) >= 0.3 ? gradTo(o.fill, o.grad) : null;
   if (g) sh.objectName = `grad:${hex(o.fill)}:${g}${o.gradAng !== undefined ? ':' + o.gradAng : ''}`;
   if (o.shadow) sh.shadow = { type: 'outer', color: '000000', opacity: 0.14, blur: 18, offset: 5, angle: 90 };
   s.addShape(type, sh);
@@ -376,7 +389,7 @@ function poly(s, pts, o = {}) {
 const FAM = () => [C.deep, C.accent, mix(ACCENT, PAPER, 0.45), mix(PRIMARY, PAPER, 0.42)];
 /** A colour dark enough for text on the paper: light fills give their text a darker shade. */
 const inkOf = c => (lum(c) > 0.55 ? mix(c, INK, 0.45) : c);
-const rrect = (s, x, y, w, h, o = {}) => shape(s, 'roundRect', x, y, w, h, { r: 0.1, ...o });
+const rrect = (s, x, y, w, h, o = {}) => shape(s, 'roundRect', x, y, w, h, { r: BENTO ? Math.min(0.2, Math.min(w, h) * 0.14) : 0.1, ...o });
 const circle = (s, x, y, d, o) => shape(s, 'ellipse', x, y, d, d, o);
 function arrow(s, x1, y1, x2, y2, o = {}) {
   s.addShape('line', {
@@ -579,10 +592,15 @@ async function pic(s, file, x, y, w, h, o = {}) {
   const fx = (o.focus && o.focus[0] !== undefined) ? o.focus[0] : 0.5, fy = (o.focus && o.focus[1] !== undefined) ? o.focus[1] : 0.5;
   const left = Math.round(Math.min(Math.max(fx * W0 - cw / 2, 0), W0 - cw));
   const top = Math.round(Math.min(Math.max(fy * H0 - ch / 2, 0), H0 - ch));
-  const key = `${f}|${left},${top},${cw},${ch}`;
+  // bento: a cropped photo gets the same round corners as the tiles; one that runs to the edge of the
+  // slide (a full-bleed side or background) stays square, as does one with o.square
+  const bleed = x < 0.05 || y < 0.05 || x + w > W - 0.05 || y + h > H - 0.05;
+  const round = BENTO && !o.square && !bleed ? Math.round((o.r !== undefined ? o.r : 0.2) / w * cw) : 0;
+  const key = `${f}|${left},${top},${cw},${ch}|${round}`;
   if (!CROPS[key]) {
-    const jpg = /\.jpe?g$/i.test(f);
-    const im = sharp(f).extract({ left, top, width: cw, height: ch });
+    const jpg = /\.jpe?g$/i.test(f) && !round;
+    let im = sharp(f).extract({ left, top, width: cw, height: ch });
+    if (round) im = sharp(await im.png().toBuffer()).composite([{ input: Buffer.from(`<svg width="${cw}" height="${ch}"><rect width="${cw}" height="${ch}" rx="${round}" ry="${round}"/></svg>`), blend: 'dest-in' }]);
     const buf = await (jpg ? im.jpeg({ quality: 90 }) : im.png()).toBuffer();
     CROPS[key] = `image/${jpg ? 'jpeg' : 'png'};base64,` + buf.toString('base64');
   }
@@ -626,8 +644,10 @@ const TONE = {
   'image-text': 'light', closing: 'dark', stations: 'tint', nested: 'light', matrix: 'tint', screen: 'light', pairs: 'tint',
   gallery: 'light', photo: 'dark', annotated: 'light', diagram: 'light', dashboard: 'tint', status: 'light', summary: 'light', figure: 'light', code: 'light',
   statement: 'dark', cycle: 'light', hub: 'light', diamond: 'light', arrows: 'light', pyramid: 'light', tree: 'light',
-  'logo-wall': 'tint', bands: 'light', roadmap: 'light', ribbons: 'light',
+  'logo-wall': 'tint', bands: 'light', roadmap: 'light', ribbons: 'light', bento: 'light', options: 'light', gantt: 'light',
 };
+/* Bento: the section slide is light grey, the closing and the item tiles sit on white. */
+const TONE_BENTO = { section: 'tint', closing: 'light', 'icon-grid': 'light' };
 /* What kind of slide each layout makes. A deck reads as monotonous when the same kind repeats, when
  * it never changes pace (no statement among many slides), or when nearly every slide is light.
  *   S statement: one big thing (a sentence, a number, a quote)   P picture   D data
@@ -635,7 +655,7 @@ const TONE = {
 const KIND = {
   statement: 'S', section: 'S', 'big-number': 'S', quote: 'S', cover: 'S', closing: 'S', kpi: 'S',
   photo: 'P', figure: 'P', gallery: 'P', annotated: 'P', 'image-text': 'P', screen: 'P', code: 'P',
-  chart: 'D', dashboard: 'D', table: 'D', matrix: 'D', status: 'D',
+  chart: 'D', dashboard: 'D', table: 'D', matrix: 'D', status: 'D', options: 'D', gantt: 'D', bento: 'T',
   diagram: 'G', nested: 'G', process: 'G', stations: 'G', timeline: 'G', cycle: 'G', hub: 'G', diamond: 'G', arrows: 'G', pyramid: 'G', tree: 'G', roadmap: 'G',
   'logo-wall': 'P', bands: 'P', ribbons: 'T',
   'icon-grid': 'T', feature: 'T', split: 'T', pairs: 'T', comparison: 'T', summary: 'T', agenda: 'T',
@@ -647,7 +667,7 @@ const ACCENT_OK = new Set(['statement', 'quote', 'section', 'big-number', 'kpi',
 const MODE = (deck.meta && deck.meta.mode) === 'read' ? 'read' : 'presented';
 const NOT_ON_SLIDE = new Set(['notes', 'id', 'layout', 'image', 'icon', 'tone', 'covers', 'source', 'alt', 'focus', 'fit', 'frame', 'side',
   'key', 'kicker', 'tag', 'caption', 'condition', 'link', 'links', 'from', 'to', 'transition', 'notesContinued', 'widths', 'align', 'perSlide', 'logos', 'logo', 'color', 'status', 'row', 'col', 'x', 'y',
-  'categories', 'series', 'values', 'screen', 'code', 'head', 'rows', 'progress', 'owner', 'marks']);
+  'categories', 'series', 'values', 'screen', 'code', 'head', 'rows', 'progress', 'owner', 'marks', 'units', 'groups', 'span', 'strong', 'heads']);
 /* Layouts whose words are data or labels rather than prose: no word budget. */
 const NO_BUDGET = new Set(['table', 'code', 'status', 'matrix', 'screen']);
 const BUDGET = () => (MODE === 'read' ? 120 : 60);
@@ -665,7 +685,7 @@ function sidePanel(sl) {
 }
 /* Layouts whose composition is a row or grid of equal boxes. Three of them in a row is the pattern
  * that makes a deck look generated. */
-const BOXES = new Set(['icon-grid', 'kpi', 'process', 'timeline', 'closing', 'comparison', 'stations', 'split', 'pairs', 'feature']);
+const BOXES = new Set(['icon-grid', 'kpi', 'process', 'timeline', 'closing', 'comparison', 'stations', 'split', 'pairs', 'feature', 'bento', 'options']);
 function pal() {
   if (cur.tone === 'accent') {
     // the brand's accent colour as the background: white text, darker accent for cards
@@ -673,14 +693,38 @@ function pal() {
       mute: mix(ACCENT, 'FFFFFF', 0.7), acc: C.white, soft: mix(ACCENT, '000000', 0.14) };
   }
   const d = cur.tone === 'dark';
-  return { d, card: d ? C.deep2 : C.white, cardLine: d ? C.deepLine : C.line, head: d ? C.white : STYLE === 'bold' ? C.deep : C.ink, text: d ? C.onDark : C.ink,
+  // bento: grey tiles on a white slide, white tiles on a grey one
+  return { d, card: d ? C.deep2 : BENTO && cur.tone !== 'tint' ? C.tint : C.white, cardLine: d ? C.deepLine : C.line, head: d ? C.white : STYLE === 'bold' ? C.deep : C.ink, text: d ? C.onDark : C.ink,
     mute: d ? C.onDark2 : C.muted, acc: d ? C.accentLight : C.accent, soft: d ? C.deep2 : (cur.tone === 'tint' ? C.white : C.tint),
     rule: d ? C.deepLine : C.rule };
 }
 /* The masthead: the company logo at the top left, the part of the deck (kicker) at the top right, a
- * hairline under both. No page numbers. Content runs down to BOT. */
+ * hairline under both. No page numbers. Content runs down to BOT.
+ * Bento: the logos at the top right, the part of the deck (the kicker, or else the title of the last
+ * section slide) as a small eyebrow in the accent at the top left, no hairline. Logos keep their
+ * colours and sit on light ground only: a dark slide shows them only in the brand's own dark version. */
 const MAST = 0.84, BOT = 6.9;
+let SECTION = '';
+const logoW = (file, h, maxW) => { const z = fs.existsSync(abs(file)) && imgSize(abs(file)); return z ? Math.min(maxW, h * z[0] / z[1]) : maxW; };
+function mastBento(s, sl, area, o = {}) {
+  const p = pal(), ax = area ? area.x : L, aw = area ? area.w : CW;
+  const dark = p.d || (area && area.photo);
+  const heads = HEADER.filter(k => LOGOS[k]).map(k => (dark ? LOGO_DARK[k] : LOGOS[k])).filter(Boolean);
+  if (dark && HEADER.some(k => LOGOS[k] && !LOGO_DARK[k])) LINT.darkNoLogo = (LINT.darkNoLogo || 0) + 1;
+  const lh = 0.36, gap = 0.3, ws = heads.map(f => logoW(f, lh, Math.min(2.2, (aw * 0.45) / Math.max(heads.length, 1))));
+  let lx = ax + aw - ws.reduce((a, w) => a + w, 0) - gap * Math.max(heads.length - 1, 0);
+  heads.forEach((f, i) => {
+    if (i) { seg(s, lx - gap / 2, 0.44, lx - gap / 2, 0.44 + lh - 0.04, { c: dark ? C.deepLine : C.line, w: 0.75, noInk: true }); }
+    image(s, f, lx, 0.42, ws[i], lh, { al: 'left', logo: true });
+    lx += ws[i] + gap;
+  });
+  if (!heads.length && B.name && !dark) T(s, B.name, ax + aw * 0.55, 0.42, aw * 0.45, lh, { f: 'd', sz: 12, c: p.head, al: 'right', va: 'middle', one: true, fit: [12, 9] });
+  const eyebrow = o.eyebrow !== undefined ? o.eyebrow : sl && sl.kicker !== undefined ? sl.kicker : SECTION;
+  if (eyebrow) T(s, String(eyebrow), ax, 0.42, aw * 0.5, lh, { f: 'd', sz: 12, c: p.acc, va: 'middle', one: true, fit: [12, 9.5] });
+  if (B.footer) T(s, B.footer, ax, 7.06, Math.min(9, aw), 0.2, { sz: 8.5, c: p.d ? C.onDark2 : C.source, va: 'middle', one: true, fit: [8.5, 8] });
+}
 function mast(s, sl, area) {
+  if (BENTO) return mastBento(s, sl, area);
   const p = pal(), ax = area ? area.x : L, aw = area ? area.w : CW;
   const heads = HEADER.filter(k => LOGOS[k]);
   // logos keep their colours: on a dark slide or over a photo the masthead is a light band
@@ -705,8 +749,15 @@ function chrome(s, n, sl) { mast(s, sl || null); }
 function head(s, sl, n, area) {
   const p = pal(), ax = area ? area.x : L, aw = area ? area.w : CW;
   mast(s, sl, area);
-  const tm = T(s, sl.title, ax, 1.02, aw, area ? 1.5 : 1.02, { f: 'h', sz: 30, c: p.head, fit: [30, 22] });
-  if (tm) TOP = Math.max(1.62, Math.min(area ? 3.4 : TOP0 + 0.4, 1.02 + tm.needH + 0.26));
+  if (BENTO) {
+    // the title in bold Aptos right under the eyebrow; content starts a little lower than in the editorial
+    // frame, which gives the tiles their air
+    const tm = T(s, sl.title, ax, 0.86, aw, area ? 1.6 : 1.0, { f: 'h', sz: 28, c: p.head, cs: -0.3, fit: [28, 20] });
+    if (tm) TOP = Math.max(1.66, Math.min(area ? 3.4 : TOP0 + 0.36, 0.86 + tm.needH + 0.4));
+  } else {
+    const tm = T(s, sl.title, ax, 1.02, aw, area ? 1.5 : 1.02, { f: 'h', sz: 30, c: p.head, fit: [30, 22] });
+    if (tm) TOP = Math.max(1.62, Math.min(area ? 3.4 : TOP0 + 0.4, 1.02 + tm.needH + 0.26));
+  }
   if (!sl.title) err('missing "title" — state the point of the slide in one sentence');
 }
 /** Source line and key at the bottom. Returns the y where content must end. */
@@ -737,9 +788,9 @@ function band(s, y, h, b, kind = 'soft') {
   const st = { warn: [C.warnTint, C.warnDark, C.ink], accent: [C.accent, C.white, C.white], deep: [p.d ? C.deepest : C.deep, C.accentLight, C.white], soft: [p.soft, p.acc, p.text] }[b.kind || kind];
   rect(s, L, y, CW, h, { fill: st[0] });
   const txt = typeof b === 'string' ? b : b.text;
-  T(s, b.lead ? lead(b.lead, txt, st[1], st[2]) : txt, L + 0.3, y, CW - 0.6, h, { sz: 11.5, c: st[2], va: 'middle', fit: [11.5, 10] });
+  T(s, b.lead ? lead(b.lead, txt, st[1], st[2]) : txt, L + 0.3, y, CW - 0.6, h, { sz: BENTO ? 15 : 11.5, c: st[2], va: 'middle', fit: BENTO ? [15, 11] : [11.5, 10] });
 }
-const bandH = sl => (sl.band ? 0.72 : 0);
+const bandH = sl => (sl.band ? (BENTO ? 0.8 : 0.72) : 0);
 function need(sl, field, min, max) {
   const v = sl[field];
   if (!Array.isArray(v) || v.length < min) { err(`"${field}" needs at least ${min} item(s)`); return []; }
@@ -753,6 +804,7 @@ const L_ = {};
 /* The cover: the company logos along the top, the title large in the serif, the subtitle under it, who
  * it is for and the date at the foot. A panel on the right holds a photo or a short list. */
 L_.cover = async (s, sl) => {
+  if (BENTO) return coverBento(s, sl);
   const hasPanel = !!sl.panel, px0 = 7.9, tw = hasPanel ? px0 - L - 0.5 : 11.6, mw = hasPanel ? px0 - L - 0.5 : CW;
   if (hasPanel) {
     rect(s, px0, 0, W - px0, H, { fill: C.deep });
@@ -796,6 +848,7 @@ L_.cover = async (s, sl) => {
 };
 
 L_.agenda = async (s, sl, n) => {
+  if (BENTO && (sl.items || []).length <= 6) return agendaBento(s, sl, n);
   head(s, sl, n);
   const items = need(sl, 'items', 2, 7), bot = foot(s, sl);
   const w = sl.aside ? 6.6 : CW, pitch = Math.min(1.3, (bot - TOP) / items.length), two = items.some(t => t && t.text);
@@ -817,6 +870,7 @@ L_.agenda = async (s, sl, n) => {
 };
 
 L_.section = async (s, sl, n) => {
+  if (BENTO) return sectionBento(s, sl);
   // a picture on the right: a cut-out or illustration stands on a soft light; a photo fills the right side
   let tw = 10.5;
   if (sl.image) {
@@ -903,6 +957,7 @@ L_.kpi = async (s, sl, n) => {
 };
 
 L_['icon-grid'] = async (s, sl, n) => {
+  if (BENTO) return iconGridBento(s, sl, n);
   // Editorial: no cards. Each item hangs from a hairline: its picture or logo if it has one, a title in
   // the serif and a readable body. Cards around short texts leave empty boxes.
   head(s, sl, n);
@@ -1264,6 +1319,7 @@ L_['image-text'] = async (s, sl, n) => {
 };
 
 L_.closing = async (s, sl, n) => {
+  if (BENTO) return closingBento(s, sl);
   head(s, sl, n);
   const steps = (sl.steps || []).slice(0, 4);
   if ((sl.steps || []).length > 4) err('"steps" holds 4 at most');
@@ -2389,6 +2445,364 @@ L_.ribbons = async (s, sl, n) => {
   band(s, bot + 0.15, bandH(sl), sl.band, 'soft');
 };
 
+/* ------------------------------------------------------------- bento */
+/* The bento look's own cover, agenda, section, closing and icon-grid, and three layouts made for
+ * proposals: bento (the executive summary), options (contract or price options) and gantt (a
+ * week-by-week schedule). Tiles are flat and rounded, a light grey on a white slide; one dark tile
+ * carries the slide's main point; the accent is one blue. */
+const pad2 = v => String(v).padStart(2, '0');
+const isPh = v => /\[[^\]]{1,40}\]/.test(String(v || ''));
+/** A round icon: a disc in one colour with the icon in another. */
+async function disc(s, name, x, y, d, bg, fg) {
+  circle(s, x, y, d, { fill: bg, noGrad: true });
+  if (name) await icon(s, name, x + d * 0.25, y + d * 0.25, d * 0.5, fg);
+}
+/** The logos side by side at the top left of the cover and the closing, larger than in the masthead. */
+function logoRow(s, keys, x, y, h) {
+  keys.forEach(k => { if (!LOGOS[k]) warn(`logo "${k}" is not in brand.logos`); });
+  const files = keys.filter(k => LOGOS[k]).map(k => LOGOS[k]);
+  let lx = x;
+  files.forEach((f, i) => {
+    if (i) seg(s, lx - 0.15, y + 0.05, lx - 0.15, y + h - 0.05, { c: C.line, w: 0.75, noInk: true });
+    lx += image(s, f, lx, y, 2.6, h, { al: 'left', logo: true }) + 0.3;
+  });
+  if (!files.length && B.name) T(s, B.name, x, y, 6, h, { f: 'd', sz: 16, c: C.ink, va: 'middle', one: true, fit: [16, 10] });
+}
+
+async function coverBento(s, sl) {
+  const pn = sl.panel || null, px = 7.1, tw = pn ? px - L - 0.4 : CW;
+  logoRow(s, sl.logos && sl.logos.length ? sl.logos : HEADER, L, 0.6, 0.44);
+  const chips = (sl.chips || []).slice(0, 6), facts = (sl.facts || []).slice(0, 3);
+  if ((sl.chips || []).length > 6) err('"chips" holds 6 at most');
+  if ((sl.facts || []).length > 3) err('"facts" holds 3 at most');
+  const footY = facts.length || sl.for || sl.note ? 6.1 : 6.9;
+  let y = 2.0;
+  if (sl.kicker) { T(s, sl.kicker, L, y, tw, 0.4, { f: 'd', sz: 16, c: C.accent, va: 'middle', one: true, fit: [16, 11] }); y += 0.42; }
+  const tt = sl.accent ? [{ t: sl.title + ' ' }, { t: sl.accent, c: C.accent }] : sl.title;
+  const tm = T(s, tt, L, y, tw, 2.3, { f: 'h', sz: 76, c: C.ink, cs: -1.5, fit: [76, 36] });
+  y += Math.min(2.3, tm ? tm.needH : 1.3) + 0.2;
+  // chips: what the deck is about, as pills that wrap onto a second row
+  const chipW = c => (c.icon ? 0.66 : 0.4) + wText(String(c.label), true, 12, 0, false, 'd');
+  const rowsC = [];
+  let rw = 0;
+  chips.forEach(c => { const w = chipW(c); if (!rowsC.length || rw + w > tw) { rowsC.push([]); rw = 0; } rowsC[rowsC.length - 1].push(c); rw += w + 0.12; });
+  const chipsH = rowsC.length * 0.56;
+  const subH = Math.max(0.5, footY - 0.2 - chipsH - (chipsH ? 0.2 : 0) - y);
+  const sm = T(s, sl.subtitle, L, y, Math.min(tw, 8.8), subH, { sz: 20, c: C.muted, fit: [20, 13] });
+  y += (sm ? Math.min(sm.needH, subH) : 0) + 0.25;
+  for (const row of rowsC) {
+    let x = L;
+    for (const c of row) {
+      const w = chipW(c);
+      rrect(s, x, y, w, 0.46, { fill: C.tint, r: 0.23 });
+      if (c.icon) await icon(s, c.icon, x + 0.18, y + 0.1, 0.26, C.accent);
+      T(s, c.label, x + (c.icon ? 0.52 : 0.2), y, w - (c.icon ? 0.58 : 0.3), 0.46, { f: 'd', sz: 12, c: C.ink, va: 'middle', one: true });
+      x += w + 0.12;
+    }
+    y += 0.56;
+  }
+  if (facts.length) {
+    const fw = Math.min(2.6, tw / facts.length);
+    facts.forEach((f, i) => {
+      const fx = L + i * fw;
+      T(s, f.label, fx, 6.12, fw - 0.15, 0.25, { sz: 10, c: C.source, one: true, fit: [10, 8.5] });
+      T(s, f.value, fx, 6.38, fw - 0.15, 0.36, { f: 'd', sz: 13.5, c: isPh(f.value) ? C.accent : C.ink, i: isPh(f.value), one: true, fit: [13.5, 10] });
+    });
+  } else {
+    T(s, sl.for, L, 6.12, tw, 0.32, { f: 'd', sz: 13.5, c: C.ink, one: true, fit: [13.5, 10] });
+    T(s, sl.note, L, 6.46, tw, 0.3, { sz: 11.5, c: C.muted, one: true, fit: [11.5, 9.5] });
+  }
+  if (!pn) return;
+  // right: a photo with a caption chip, two key numbers under it, or a dark tile with the deck's spine
+  const pw = R - px, py = 0.6, ph = H - 1.2, stats = (pn.stats || []).slice(0, 2);
+  if ((pn.stats || []).length > 2) err('"panel.stats" holds 2 at most');
+  const ih = pn.image ? (stats.length ? ph * 0.53 : ph) : 0;
+  if (pn.image) {
+    await pic(s, pn.image, px, py, pw, ih, { fit: 'cover', focus: pn.focus, alt: pn.alt, r: 0.3 });
+    if (pn.caption) {
+      const cw = Math.min(pw - 0.6, wText(String(pn.caption), true, 11.5, 0, false, 'd') + 0.45);
+      rrect(s, px + 0.3, py + ih - 0.74, cw, 0.44, { fill: C.white, r: 0.22 });
+      T(s, pn.caption, px + 0.5, py + ih - 0.74, cw - 0.3, 0.44, { f: 'd', sz: 11.5, c: C.ink, va: 'middle', one: true, fit: [11.5, 9] });
+    }
+  }
+  if (stats.length) {
+    const by = pn.image ? py + ih + 0.16 : py, bh = py + ph - by, bw = (pw - 0.16 * (stats.length - 1)) / stats.length, vh = Math.min(1.15, bh * 0.45);
+    const vf = uni(stats.map(st => [st.value, bw - 0.7, vh, { f: 'h', one: true }]), [60, 28]);
+    stats.forEach((st, i) => {
+      const x = px + i * (bw + 0.16), d = i === 0;
+      rrect(s, x, by, bw, bh, { fill: d ? C.deep : C.tint, r: 0.3 });
+      T(s, st.value, x + 0.35, by + 0.3, bw - 0.7, vh, { f: 'h', c: d ? C.accentLight : C.accent, va: 'middle', one: true, cs: -1, fit: vf });
+      T(s, st.label, x + 0.35, by + 0.4 + vh, bw - 0.7, bh - vh - 0.6, { f: 'd', sz: 14, c: d ? C.white : C.ink, fit: [14, 10] });
+    });
+  }
+  if (!pn.image && !stats.length) {
+    const items = (pn.items || []).slice(0, 6);
+    rrect(s, px, py, pw, ph, { fill: C.deep, r: 0.3 });
+    if (pn.caption) T(s, pn.caption, px + 0.45, py + 0.4, pw - 0.9, 0.32, { f: 'd', sz: 13, c: C.accentLight, one: true, fit: [13, 10] });
+    const pitch = Math.min(0.9, (ph - 1.3) / Math.max(items.length, 1));
+    for (let i = 0; i < items.length; i++) {
+      const it = items[i], yy = py + 1.0 + i * pitch;
+      if (i) seg(s, px + 0.45, yy, px + pw - 0.45, yy, { c: C.deepLine, w: 0.75, noInk: true });
+      if (it.icon) await icon(s, it.icon, px + 0.45, yy + (pitch - 0.32) / 2, 0.32, C.accentLight);
+      T(s, it.label, px + (it.icon ? 0.95 : 0.45), yy, pw - (it.icon ? 1.4 : 0.9), pitch, { f: 'd', sz: 15, c: C.white, va: 'middle', one: true, fit: [15, 11] });
+    }
+  }
+}
+
+async function agendaBento(s, sl, n) {
+  head(s, sl, n);
+  const p = pal(), items = need(sl, 'items', 2, 6), bot = foot(s, sl);
+  const cols = items.length <= 3 ? items.length : items.length === 4 ? 2 : 3, rows = Math.ceil(items.length / cols), g = 0.24;
+  const cw = (CW - g * (cols - 1)) / cols, ch = rows === 1 ? Math.min(2.7, bot - TOP) : (bot - TOP - g * (rows - 1)) / rows;
+  const y0 = rows === 1 ? TOP + (bot - TOP - ch) / 2 : TOP;
+  const title = t => (t && t.title) || t, bh = items.some(t => t && t.text) ? Math.min(0.85, ch * 0.32) : 0;
+  const tf = uni(items.map(t => [title(t), cw - 0.7, 0.45, { f: 'h', one: true }]), [22, 14]);
+  const bf = uni(items.map(t => [t && t.text, cw - 0.7, bh, {}]), [14, 10]);
+  items.forEach((t, i) => {
+    const x = L + (i % cols) * (cw + g), y = y0 + Math.floor(i / cols) * (ch + g);
+    rrect(s, x, y, cw, ch, { fill: p.card });
+    T(s, pad2(i + 1), x + 0.35, y + 0.3, 1.2, 0.5, { f: 'h', sz: 26, c: p.acc, one: true });
+    T(s, title(t), x + 0.35, y + ch - 0.3 - bh - (bh ? 0.08 : 0) - 0.45, cw - 0.7, 0.45, { f: 'h', c: p.head, va: 'bottom', one: true, fit: tf });
+    if (t && t.text) T(s, t.text, x + 0.35, y + ch - 0.3 - bh, cw - 0.7, bh, { c: p.mute, fit: bf });
+  });
+}
+
+async function sectionBento(s, sl) {
+  const p = pal();
+  mastBento(s, sl, undefined, { eyebrow: '' });
+  const items = (sl.items || []).slice(0, 6);
+  if ((sl.items || []).length > 6) err('"items" holds 6 at most');
+  const right = items.length || sl.image, tw = right ? 6.6 : CW;
+  // the part's number, its name and one line on what it holds, as one block in the middle of the slide
+  const lab = sl.number !== undefined && sl.number !== '' ? `${LBL.part} ${sl.number}` : '';
+  let size = 36;
+  for (const sz of sizesIn(60, 36)) if (fitsAt(sl.title || '', tw, 2.2, { f: 'h', cs: -1 }, sz)) { size = sz; break; }
+  const th = Math.min(2.2, measureT(sl.title || '', tw, { f: 'h', cs: -1 }, size).needH);
+  const sh = sl.subtitle ? Math.min(1.1, measureT(sl.subtitle, Math.min(tw, 6.2), {}, 20).needH) : 0;
+  const tot = (lab ? 0.45 : 0) + th + (sh ? 0.25 + sh : 0);
+  let y = (H - tot) / 2 + 0.1;
+  if (lab) { T(s, lab, L, y, tw, 0.4, { f: 'd', sz: 16, c: p.acc, one: true }); y += 0.45; }
+  T(s, sl.title, L, y, tw, th, { f: 'h', sz: size, c: p.head, cs: -1 });
+  if (sh) T(s, sl.subtitle, L, y + th + 0.25, Math.min(tw, 6.2), sh, { sz: 20, c: p.mute, fit: [20, 13] });
+  if (items.length) {
+    const cx = 7.75, cw = R - cx, rh = Math.min(0.72, 4.2 / items.length), ch = 0.75 + items.length * rh + 0.2, cy = (H - ch) / 2 + 0.15;
+    rrect(s, cx, cy, cw, ch, { fill: p.d ? C.deep2 : C.white, r: 0.24 });
+    T(s, LBL.inThisPart, cx + 0.4, cy + 0.3, cw - 0.8, 0.25, { f: 'd', sz: 10, cs: 1.5, c: p.mute, one: true });
+    const f = uni(items.map(t => [t, cw - 1.4, rh, { one: true }]), [15, 11]);
+    items.forEach((t, i) => {
+      const yy = cy + 0.75 + i * rh;
+      if (i) seg(s, cx + 0.4, yy, cx + cw - 0.4, yy, { c: p.d ? C.deepLine : C.line, w: 0.75, noInk: true });
+      T(s, pad2(i + 1), cx + 0.4, yy, 0.6, rh, { f: 'd', sz: 13, c: p.acc, va: 'middle', one: true });
+      T(s, t, cx + 1.0, yy, cw - 1.4, rh, { c: p.head, va: 'middle', one: true, fit: f });
+    });
+  } else if (sl.image) await pic(s, sl.image, 7.75, 1.2, R - 7.75, H - 2.4, { fit: 'cover', focus: sl.focus, alt: sl.alt });
+}
+
+async function closingBento(s, sl) {
+  const p = pal(), steps = (sl.steps || []).slice(0, 4);
+  if ((sl.steps || []).length > 4) err('"steps" holds 4 at most');
+  const right = steps.length || sl.image, tw = right ? 5.9 : CW;
+  logoRow(s, HEADER, L, 0.6, 0.44);
+  const big = sl.thanks || sl.title, sub = sl.thanks ? sl.title : sl.subtitle;
+  T(s, big, L, 1.95, tw + 0.5, 1.35, { f: 'h', sz: 66, c: p.head, cs: -1.5, va: 'middle', one: true, fit: [66, 36] });
+  T(s, sub, L, 3.4, tw, 1.05, { sz: 20, c: p.mute, fit: [20, 13] });
+  // contact: a string, a list of lines ({ icon, text } or strings), or { name, lines }
+  const ct = sl.contact, lines = !ct ? [] : typeof ct === 'string' ? [ct] : Array.isArray(ct) ? ct : ct.lines || [];
+  if (ct) {
+    const cy = 4.65, ch = Math.min(BOT - 0.2 - cy, 0.5 + (ct.name ? 0.42 : 0) + Math.min(lines.length, 5) * 0.34);
+    rrect(s, L, cy, tw, ch, { fill: p.card });
+    let yy = cy + 0.25;
+    if (ct.name) { T(s, ct.name, L + 0.35, yy, tw - 0.7, 0.35, { f: 'h', sz: 15, c: p.head, one: true, fit: [15, 11] }); yy += 0.42; }
+    const lh = Math.min(0.34, (cy + ch - 0.2 - yy) / Math.max(lines.length, 1));
+    for (const ln of lines.slice(0, 5)) {
+      const it = typeof ln === 'string' ? { text: ln } : ln;
+      if (it.icon) await icon(s, it.icon, L + 0.35, yy + (lh - 0.22) / 2, 0.22, C.accent);
+      T(s, it.text, L + (it.icon ? 0.7 : 0.35), yy, tw - 1.0, lh, { sz: 12, c: isPh(it.text) ? C.accent : p.text, i: isPh(it.text), va: 'middle', one: true, fit: [12, 9.5] });
+      yy += lh;
+    }
+  }
+  if (!right) return;
+  const px = 7.1, py = 0.6, pw = R - px, ph = H - 1.2;
+  if (!steps.length) { await pic(s, sl.image, px, py, pw, ph, { fit: 'cover', focus: sl.focus, alt: sl.alt, r: 0.3 }); return; }
+  rrect(s, px, py, pw, ph, { fill: C.deep, r: 0.3 });
+  T(s, sl.stepsHeading || LBL.next, px + 0.5, py + 0.45, pw - 1, 0.32, { f: 'd', sz: 13, c: C.accentLight, one: true });
+  const sy0 = py + 1.05, sh = (py + ph - 0.35 - sy0) / steps.length, th = Math.min(0.66, sh * 0.42);
+  const tf = uni(steps.map(st => [st.title, pw - 1.95, th, { f: 'h' }]), [19, 14]);
+  const tH = Math.max(0.3, ...steps.map(st => measureT(st.title || '', pw - 1.95, { f: 'h' }, tf[0]).needH));
+  const bf = uni(steps.map(st => [st.text, pw - 1.95, sh - 0.4 - tH, {}]), [13, 10]);
+  steps.forEach((st, i) => {
+    const yy = sy0 + i * sh;
+    if (i) seg(s, px + 0.5, yy, px + pw - 0.5, yy, { c: C.deepLine, w: 0.75, noInk: true });
+    T(s, pad2(i + 1), px + 0.5, yy + 0.24, 0.9, 0.5, { f: 'h', sz: 26, c: C.accentLight, va: 'middle', one: true });
+    T(s, st.title, px + 1.45, yy + 0.28, pw - 1.95, tH + 0.04, { f: 'h', c: C.white, fit: tf });
+    T(s, st.text, px + 1.45, yy + 0.36 + tH, pw - 1.95, Math.max(0.3, sh - 0.4 - tH), { c: C.onDark2, fit: bf });
+  });
+}
+
+/* icon-grid in bento: each item is a tile, its icon in a disc beside its title, the body under both. */
+async function iconGridBento(s, sl, n) {
+  head(s, sl, n);
+  const p = pal(), bot = foot(s, sl) - bandH(sl) - (sl.band ? 0.2 : 0);
+  const items = need(sl, 'items', 2, 6);
+  const cols = items.length <= 4 ? items.length : 3, rows = Math.ceil(items.length / cols), g = 0.22;
+  const w = (CW - g * (cols - 1)) / cols, h = (bot - TOP - g * (rows - 1)) / rows;
+  const marks = items.some(it => it.icon || it.image), d = marks ? 0.6 : 0, tx = marks ? 0.3 + d + 0.18 : 0.3, th = 0.62, by = 0.3 + th + 0.14;
+  const tf = uni(items.map(it => [it.title, w - tx - 0.25, th, { f: 'h' }]), [17, 12]);
+  const bf = uni(items.map(it => [it.body, w - 0.55, h - by - 0.2, {}]), [15, 10.5]);
+  // one row of short items: the tiles are as tall as their content and sit in the middle of the room
+  const bodyNeed = Math.max(0, ...items.map(it => (it.body ? measureT(it.body, w - 0.55, {}, bf[0]).needH : 0)));
+  const tileH = rows === 1 ? Math.min(h, Math.max(by + bodyNeed + 0.35, 1.6)) : h, yOff = (h - tileH) / 2;
+  for (let i = 0; i < items.length; i++) {
+    const it = items[i], x = L + (i % cols) * (w + g), y = TOP + yOff + Math.floor(i / cols) * (h + g);
+    rrect(s, x, y, w, tileH, { fill: it.warn ? C.warnTint : p.card });
+    if (it.image) mark(s, it.image, x + 0.3, y + 0.3 + (th - d) / 2, d, d, 'center');
+    else if (it.icon) await disc(s, it.icon, x + 0.3, y + 0.3 + (th - d) / 2, d, p.card === C.white ? C.tint : C.white, it.warn ? C.warnDark : p.acc);
+    T(s, it.title, x + tx, y + 0.3, w - tx - 0.25, th, { f: 'h', c: p.head, va: 'middle', fit: tf });
+    T(s, it.body, x + 0.3, y + by, w - 0.55, tileH - by - 0.2, { c: p.text, fit: bf });
+  }
+  band(s, bot + 0.2, bandH(sl), sl.band, 'deep');
+}
+
+/* The executive summary as tiles: a dark tile with the proposal in one sentence and its key numbers,
+ * and two to four tiles with what each part of the deck says (problem, answer, price, next step). */
+L_.bento = async (s, sl, n) => {
+  head(s, sl, n);
+  const p = pal(), bot = foot(s, sl), pn = sl.panel || {}, blocks = need(sl, 'blocks', 2, 4), nums = (pn.numbers || []).slice(0, 4);
+  if ((pn.numbers || []).length > 4) err('"panel.numbers" holds 4 at most');
+  const lw = 4.25, g = 0.24, right = sl.side === 'right';
+  const px = right ? R - lw : L, gx = right ? L : L + lw + g, gwid = CW - lw - g;
+  rrect(s, px, TOP, lw, bot - TOP, { fill: C.deep });
+  let y = TOP + 0.35;
+  if (pn.heading) { T(s, pn.heading, px + 0.4, y, lw - 0.8, 0.3, { f: 'd', sz: 12, c: C.accentLight, one: true }); y += 0.4; }
+  const nh = 0.8, numH = nums.length * nh;
+  const vf = uni(nums.map(q => [q.value, 1.3, 0.7, { f: 'h', one: true }]), [38, 20]);
+  const vw = nums.length ? Math.min(1.6, Math.max(...nums.map(q => wText(String(q.value), true, vf[0], 0, false, 'h'))) + 0.2) : 0;
+  T(s, pn.text, px + 0.4, y, lw - 0.8, bot - 0.3 - numH - (nums.length ? 0.2 : 0) - y, { f: 'h', c: C.white, fit: [20, 13] });
+  nums.forEach((q, i) => {
+    const yy = bot - 0.3 - numH + i * nh;
+    T(s, q.value, px + 0.4, yy, vw, 0.7, { f: 'h', c: C.accentLight, va: 'middle', one: true, fit: vf });
+    T(s, q.label, px + 0.4 + vw + 0.1, yy, lw - 0.9 - vw, 0.7, { c: C.onDark2, va: 'middle', fit: [12.5, 9.5] });
+  });
+  const cols = blocks.length === 3 ? 3 : 2, rows = Math.ceil(blocks.length / cols);
+  const bw = (gwid - g * (cols - 1)) / cols, bh = (bot - TOP - g * (rows - 1)) / rows;
+  const bf = uni(blocks.map(b => [b.bullets || b.text, bw - 0.65, bh - 0.95, b.bullets ? { pa: 5 } : {}]), [14, 10.5]);
+  for (let i = 0; i < blocks.length; i++) {
+    const b = blocks[i], x = gx + (i % cols) * (bw + g), yy = TOP + Math.floor(i / cols) * (bh + g);
+    rrect(s, x, yy, bw, bh, { fill: b.warn ? C.warnTint : p.card });
+    if (b.icon) await icon(s, b.icon, x + 0.35, yy + 0.32, 0.36, b.warn ? C.warnDark : p.acc);
+    T(s, b.title, x + (b.icon ? 0.85 : 0.35), yy + 0.28, bw - (b.icon ? 1.1 : 0.7), 0.44, { f: 'h', sz: 17, c: p.head, va: 'middle', one: true, fit: [17, 12] });
+    body(s, b.bullets || b.text, x + 0.35, yy + 0.86, bw - 0.65, bh - 0.95, { c: p.text, pa: 5, fit: bf });
+  }
+};
+
+/* Contract or price options side by side with the price large; under them what every option includes
+ * and the assumptions behind the prices. */
+L_.options = async (s, sl, n) => {
+  head(s, sl, n);
+  const p = pal(), bot = foot(s, sl), opts = need(sl, 'options', 1, 3);
+  const inc = sl.includes || null, asm = sl.assumptions || null;
+  const incItems = inc ? (inc.items || []).slice(0, 5) : [], asmItems = asm ? asm.items || asm.bullets || [] : [];
+  if (inc && (inc.items || []).length > 5) err('"includes.items" holds 5 at most');
+  const lower = incItems.length || asmItems.length, g = 0.24;
+  // each option is as tall as its content; what is left goes to the includes and the assumptions
+  const optNeed = o => 1.92 + (o.note ? 0.36 : 0) + ((o.facts || []).length ? 0.72 : 0);
+  const needO = Math.max(...opts.map(optNeed)), oh = lower ? Math.min(needO, bot - TOP - g - 1.6) : bot - TOP, ow = (CW - g * (opts.length - 1)) / opts.length;
+  if (needO > oh + 0.02) err('the options hold more than their tiles: drop a note or a fact, shorten the title to one line, or move "includes" and "assumptions" to another slide');
+  const unitOf = o => (o.unit ? '  ' + o.unit : '');
+  const pf = uni(opts.map(o => [String(o.price || ''), ow - 0.8 - (o.unit ? wText(unitOf(o), false, 16) : 0), 0.72, { f: 'h', one: true, cs: -0.5 }]), [44, 22]);
+  opts.forEach((o, i) => {
+    const x = L + i * (ow + g), d = !!o.strong, hc = d ? C.white : p.head, mc = d ? C.onDark2 : p.mute, ac = d ? C.accentLight : p.acc;
+    rrect(s, x, TOP, ow, oh, { fill: d ? C.deep : p.card });
+    let y = TOP + 0.28 + Math.max(0, (oh - needO) / 2);
+    T(s, o.label, x + 0.4, y, ow - 0.8, 0.26, { f: 'd', sz: 11, c: ac, one: true, fit: [11, 9] }); y += 0.28;
+    T(s, o.title, x + 0.4, y, ow - 0.8, 0.4, { f: 'h', sz: 18, c: hc, one: true, fit: [18, 13] }); y += 0.44;
+    T(s, [{ t: String(o.price || ''), f: 'h', sz: pf[0], c: isPh(o.price) ? (d ? C.accentLight : C.accent) : hc }, { t: unitOf(o), f: 'b', sz: 16, c: mc }], x + 0.4, y, ow - 0.8, 0.74, { va: 'middle', one: true, cs: -0.5 });
+    y += 0.8;
+    if (o.note) { T(s, o.note, x + 0.4, y, ow - 0.8, 0.28, { f: 'd', sz: 11.5, c: ac, one: true, fit: [11.5, 9.5] }); y += 0.36; }
+    const facts = (o.facts || []).slice(0, 3);
+    if ((o.facts || []).length > 3) err('"facts" of an option holds 3 at most');
+    if (facts.length) {
+      seg(s, x + 0.4, y, x + ow - 0.4, y, { c: d ? C.deepLine : C.line, w: 0.75, noInk: true });
+      const fw = (ow - 0.8) / facts.length;
+      facts.forEach((f, j) => {
+        T(s, f.label, x + 0.4 + j * fw, y + 0.1, fw - 0.1, 0.22, { sz: 10.5, c: mc, one: true, fit: [10.5, 9] });
+        T(s, f.value, x + 0.4 + j * fw, y + 0.33, fw - 0.1, 0.32, { f: 'h', sz: 15, c: hc, one: true, fit: [15, 11] });
+      });
+    }
+  });
+  if (!lower) return;
+  const by = TOP + oh + g, bh = bot - by;
+  const aw = asmItems.length ? (incItems.length ? Math.max(3.6, CW * 0.33) : CW) : 0, iw = incItems.length ? CW - aw - (aw ? g : 0) : 0;
+  if (incItems.length) {
+    rrect(s, L, by, iw, bh, { fill: p.card });
+    T(s, inc.heading, L + 0.35, by + 0.22, iw - 0.7, 0.3, { f: 'h', sz: 13, c: p.head, one: true, fit: [13, 10] });
+    const cw = (iw - 0.7) / incItems.length, its = incItems.map(it => (typeof it === 'string' ? { text: it } : it)), hasIc = its.some(it => it.icon);
+    const ty = by + (hasIc ? 1.28 : 0.66), tf = uni(its.map(it => [it.text, cw - 0.2, by + bh - 0.15 - ty, { b: true }]), [13, 10]);
+    for (let i = 0; i < its.length; i++) {
+      const x = L + 0.35 + i * cw;
+      if (its[i].icon) await disc(s, its[i].icon, x, by + 0.66, 0.5, p.card === C.white ? C.tint : C.white, p.acc);
+      T(s, its[i].text, x, ty, cw - 0.2, by + bh - 0.15 - ty, { f: 'd', c: p.head, fit: tf });
+    }
+  }
+  if (asmItems.length) {
+    const ax = L + iw + (iw ? g : 0);
+    rrect(s, ax, by, aw, bh, { fill: p.card });
+    T(s, asm.heading, ax + 0.35, by + 0.22, aw - 0.7, 0.3, { f: 'h', sz: 13, c: p.head, one: true, fit: [13, 10] });
+    body(s, asmItems, ax + 0.35, by + 0.62, aw - 0.6, bh - 0.72, { c: p.text, fit: [12.5, 10] });
+  }
+};
+
+/* A schedule week by week: one row per activity with its bar, the periods (months) over the weeks, a
+ * milestone as a dark pill, and up to four milestones as tiles under the chart. */
+L_.gantt = async (s, sl, n) => {
+  head(s, sl, n);
+  const p = pal(), bot = foot(s, sl), rows = need(sl, 'rows', 2, 12);
+  const units = sl.units || Math.max(...rows.map(r => r.to || r.from || 1)), groups = sl.groups || [], heads = sl.heads || [];
+  const ms = (sl.milestones || []).slice(0, 4);
+  if ((sl.milestones || []).length > 4) err('"milestones" holds 4 at most');
+  const hasGroup = rows.some(r => r.group);
+  const gw = hasGroup ? Math.min(2.0, Math.max(wText(String(heads[0] || ''), true, 11, 0, false, 'd'), ...rows.map(r => wText(String(r.group || ''), false, 11.5))) + 0.3) : 0;
+  const aw = Math.min(3.4, Math.max(...rows.map(r => wText(String(r.label || ''), true, 12, 0, false, 'd'))) + 0.3);
+  const wx0 = L + gw + aw, ww = (R - wx0) / units, headH = groups.length ? 0.7 : 0.36, y0 = TOP + headH;
+  const mh = ms.length ? 1.05 : 0, rh = Math.min(0.46, (bot - y0 - (mh ? mh + 0.24 : 0)) / rows.length), gy1 = y0 + rows.length * rh;
+  let u0 = 0;
+  groups.forEach((gr, i) => {
+    const x = wx0 + u0 * ww;
+    if (i % 2) rect(s, x, TOP, gr.span * ww, gy1 - TOP, { fill: p.card === C.white ? C.tint : p.card, square: true, noInk: true });
+    T(s, gr.label, x, TOP, gr.span * ww, 0.34, { f: 'd', sz: 11.5, c: p.head, al: 'center', va: 'middle', one: true, fit: [11.5, 8.5] });
+    u0 += gr.span || 0;
+  });
+  if (groups.length && u0 !== units) err(`the "span" of "groups" add up to ${u0}, not to "units" (${units})`);
+  const wy = TOP + (groups.length ? 0.36 : 0);
+  for (let u = 0; u < units; u++) T(s, String(u + 1), wx0 + u * ww, wy, ww, 0.3, { sz: 9.5, c: p.mute, al: 'center', va: 'middle', one: true, fit: [9.5, 7] });
+  if (heads[0] && hasGroup) T(s, heads[0], L, wy, gw, 0.3, { f: 'd', sz: 11, c: p.mute, va: 'middle', one: true });
+  if (heads[hasGroup ? 1 : 0]) T(s, heads[hasGroup ? 1 : 0], L + gw, wy, aw, 0.3, { f: 'd', sz: 11, c: p.mute, va: 'middle', one: true });
+  seg(s, L, y0, R, y0, { c: p.rule, w: 0.75, noInk: true });
+  rows.forEach((r, i) => {
+    const y = y0 + i * rh, from = Math.max(1, r.from || 1), to = Math.min(units, r.to || from);
+    if (i) seg(s, L, y, R, y, { c: p.d ? C.deepLine : C.line, w: 0.5, noInk: true });
+    if (hasGroup) T(s, r.group, L, y, gw - 0.1, rh, { sz: 11.5, c: p.mute, va: 'middle', one: true, fit: [11.5, 9] });
+    T(s, r.label, L + gw, y, aw - 0.1, rh, { f: 'd', sz: 12, c: p.head, va: 'middle', one: true, fit: [12, 9.5] });
+    const bx = wx0 + (from - 1) * ww + 0.04, bw = (to - from + 1) * ww - 0.08;
+    if (r.tag) {
+      const tw = Math.max(bw + 0.2, wText(String(r.tag), true, 9.5, 0, false, 'd') + 0.3);
+      rrect(s, bx + bw / 2 - tw / 2, y + 0.06, tw, rh - 0.12, { fill: p.d ? C.white : C.deep, r: (rh - 0.12) / 2 });
+      T(s, r.tag, bx + bw / 2 - tw / 2, y + 0.06, tw, rh - 0.12, { f: 'd', sz: 9.5, c: p.d ? C.ink : C.white, al: 'center', va: 'middle', one: true });
+    } else rrect(s, bx, y + (rh - 0.2) / 2, bw, 0.2, { fill: r.muted ? C.idle : p.acc, r: 0.1 });
+    if (r.to && r.to > units) err(`row "${r.label}" ends at ${r.to}, after the last unit (${units})`);
+  });
+  seg(s, L, gy1, R, gy1, { c: p.rule, w: 0.75, noInk: true });
+  if (!ms.length) return;
+  const my = gy1 + 0.24, mhh = bot - my, mw = (CW - 0.24 * (ms.length - 1)) / ms.length;
+  const mf = uni(ms.map(m => [m.text, mw - 0.45, mhh - 0.5, {}]), [12.5, 10]);
+  ms.forEach((m, i) => {
+    const x = L + i * (mw + 0.24), d = !!m.strong;
+    rrect(s, x, my, mw, mhh, { fill: d ? C.deep : p.card === C.white ? C.tint : p.card, r: 0.16 });
+    T(s, m.label, x + 0.25, my + 0.16, mw - 0.5, 0.26, { f: 'd', sz: 11, c: d ? C.accentLight : p.acc, one: true, fit: [11, 9] });
+    T(s, m.text, x + 0.25, my + 0.44, mw - 0.45, mhh - 0.5, { c: d ? C.white : p.text, fit: mf });
+  });
+};
+
 /* ------------------------------------------------------------- speaker notes */
 /* pptxgenjs writes a slide's notes as one text run, and PowerPoint does not show the line breaks
  * inside it. Rewrite each line as its own paragraph: a blank line stays a blank paragraph, and a
@@ -2553,7 +2967,9 @@ async function main() {
     if (!sl._cont) seen[layout] = (seen[layout] || 0) + 1;
     sl._alt = seen[layout] % 2 === 0;
     const s = pptx.addSlide();
-    const tone = sl.tone || (layout === 'gallery' && sl.frame === 'browser' ? 'dark' : TONE[layout]) || 'light';
+    const tone = sl.tone || (layout === 'gallery' && sl.frame === 'browser' ? 'dark' : (BENTO && TONE_BENTO[layout]) || TONE[layout]) || 'light';
+    // bento: the slides after a section slide carry its title as their eyebrow
+    if (layout === 'section') SECTION = sl.title || '';
     TOP = TOP0;
     cur = { id: `slide ${i + 1} (${sl.id || layout})`, layout, tone, texts: [], ink: [], boxes: [], notes: 0, cont: !!sl._cont };
     LINT.slides.push(cur);
@@ -2561,8 +2977,9 @@ async function main() {
     s.background = { color: cur.tone === 'dark' ? C.deep : cur.tone === 'accent' ? C.accent : cur.tone === 'tint' ? C.tint : C.paper };
     // dark and accent slides get a diagonal gradient background: the accent deepens towards the primary
     // colour, so an accent slide reads as rich rather than as a flat default blue
-    if (cur.tone === 'dark') BGS[i] = [mix(PRIMARY, 'FFFFFF', 0.03), mix(PRIMARY, '000000', 0.2)];
-    if (cur.tone === 'accent') BGS[i] = [mix(ACCENT, 'FFFFFF', 0.04), mix(ACCENT, '000000', 0.3)];
+    // (bento keeps every background flat)
+    if (cur.tone === 'dark' && !BENTO) BGS[i] = [mix(PRIMARY, 'FFFFFF', 0.03), mix(PRIMARY, '000000', 0.2)];
+    if (cur.tone === 'accent' && !BENTO) BGS[i] = [mix(ACCENT, 'FFFFFF', 0.04), mix(ACCENT, '000000', 0.3)];
     if (cur.tone === 'accent' && !ACCENT_OK.has(layout)) warn(`"tone": "accent" suits ${[...ACCENT_OK].join(', ')}; on ${layout} its cards and marks lose contrast`);
     // depth on dark slides: one soft light from the top right instead of a flat fill
     if (cur.tone === 'dark' && sl.glow === true && L_[layout]) await glow(s, W - 5.5, -3.2, 9, 9, C.accent, 0.3);
@@ -2584,7 +3001,8 @@ async function main() {
     else if (i > 1 && [d, sl[i - 1], sl[i - 2]].every(q => BOXES.has(q.layout))) LINT.warns.push(`${d.id} — three slides in a row are rows of boxes (${sl[i - 2].layout}, ${sl[i - 1].layout}, ${d.layout}); this is what makes a deck look generated — show one of them as the source's picture, a chart, a diagram or a table`);
     const budget = BUDGET();
     if (d.words > budget * 1.1 && !NO_BUDGET.has(d.layout)) LINT.warns.push(`${d.id} — ${d.words} words on the slide (about ${budget} at most for a ${MODE} deck); the slide shows its one point, the detail goes to the notes, an appendix or a second slide`);
-    if (!['cover', 'section', 'statement'].includes(d.layout)) {
+    // (bento's agenda and closing are tiles of short labels by design)
+    if (!['cover', 'section', 'statement'].includes(d.layout) && !(BENTO && ['agenda', 'closing'].includes(d.layout))) {
       const { slide: e, card: c } = emptiness(d), fix = 'the content is too thin for this layout — add what the sources hold on this point (its picture, its table, its numbers), pick a layout made for less, or merge this slide with its neighbour';
       if (e && e.share >= 0.12) (e.share >= 0.22 && d.layout !== 'quote' ? LINT.errors : LINT.warns).push(`${d.id} — empty area of ${e.w.toFixed(1)} × ${e.h.toFixed(1)} in (${e.where}, ${Math.round(e.share * 100)}% of the content area): ${fix}`);
       if (c) (c.share >= 0.5 && c.a >= 4 ? LINT.errors : LINT.warns).push(`${d.id} — a ${c.box.w.toFixed(1)} × ${c.box.h.toFixed(1)} in card is ${Math.round(c.share * 100)}% empty inside: ${fix}`);
@@ -2595,7 +3013,8 @@ async function main() {
       if (ox > 0.03 && oy > 0.03) LINT.errors.push(`${d.id} — two texts overlap: ${a.id} and ${b.id}`);
     }));
     if (process.env.DECK_EMPTY_DEBUG) { const { slide: e, card: c } = emptiness(d); console.log(d.id.padEnd(30), e ? `${e.w.toFixed(1)}x${e.h.toFixed(1)} a=${e.a.toFixed(1)} ${Math.round(e.share * 100)}% ${e.where}` : '-', '| card', c ? `${c.w.toFixed(1)}x${c.h.toFixed(1)} a=${c.a.toFixed(1)} ${Math.round(c.share * 100)}% of ${c.box.w.toFixed(1)}x${c.box.h.toFixed(1)}` : '-'); }
-    if (d.layout === 'agenda' || d.layout === 'section') LINT.warns.push(`${d.id} — this slide only organizes the deck; keep it only if the user asked for it or the deck is long`);
+    // bento decks are proposals in parts: the agenda and a section slide per part belong to them
+    if (!BENTO && (d.layout === 'agenda' || d.layout === 'section')) LINT.warns.push(`${d.id} — this slide only organizes the deck; keep it only if the user asked for it or the deck is long`);
   });
   const nb = sl.filter(d => BOXES.has(d.layout)).length;
   if (sl.length >= 8 && nb / sl.length > 0.55) LINT.warns.push(`deck — ${nb} of ${sl.length} slides are rows of boxes; use the sources' pictures, charts, tables and diagrams for some of them`);
@@ -2603,9 +3022,11 @@ async function main() {
   const distinct = new Set(sl.map(d => d.layout)).size;
   if (sl.length >= 8 && distinct / sl.length < 0.5) LINT.warns.push(`deck — only ${distinct} layouts for ${sl.length} slides; vary them`);
   let run = 0;
-  sl.forEach(d => { run = d.tone === 'light' || d.tone === 'tint' ? run + 1 : 0; if (run === 5) LINT.warns.push(`${d.id} — five light slides in a row; make one of them dark or accent: a statement, a photo, a dark chart ("tone": "dark")`); });
+  // a light slide with a large dark tile (bento) counts as a change of tone
+  const lightish = d => (d.tone === 'light' || d.tone === 'tint') && !d.darkTile;
+  sl.forEach(d => { run = lightish(d) ? run + 1 : 0; if (run === 5) LINT.warns.push(`${d.id} — five light slides in a row; make one of them dark or accent: a statement, a photo, a dark chart ("tone": "dark")`); });
   if (sl.length >= 8) {
-    const light = sl.filter(d => d.tone === 'light' || d.tone === 'tint').length;
+    const light = sl.filter(lightish).length;
     if (light / sl.length > 0.75) LINT.warns.push(`deck — ${light} of ${sl.length} slides are light; about one slide in four should be dark or accent, and not only the section dividers`);
     const tk = sl.filter(d => KIND[d.layout] === 'T').length;
     if (tk / sl.length > 0.4) LINT.warns.push(`deck — ${tk} of ${sl.length} slides are text and cards; show more of the content as pictures, charts, drawings or statements`);
@@ -2621,6 +3042,7 @@ async function main() {
       if (since === 7) LINT.warns.push(`${d.id} — seven slides without a change of pace; put a statement, a big number, a quote or a full photo among them`);
     });
   }
+  if (LINT.darkNoLogo) LINT.warns.push(`deck — the header logos are left off ${LINT.darkNoLogo} dark slide(s), since a logo is never recoloured: give each logo its own "dark" version in brand.logos, or keep those slides light`);
   console.log(`lint: ${sl.length} slides, ${distinct} layouts, tones ${sl.map(d => d.tone[0].toUpperCase()).join('')}${faces.r ? '' : ' (no font files found: text fit is estimated)'}`);
   LINT.warns.forEach(w => console.log('  warn  ' + w));
   LINT.errors.forEach(e => console.log('  ERROR ' + e));

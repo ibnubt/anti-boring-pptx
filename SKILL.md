@@ -14,10 +14,11 @@ Four things make a deck fail. This skill handles each one structurally, not with
 **Monotony** — every slide is "title + text in cards", in the same frame, on the same white
 background, with the same amount of text. It is the failure people notice first.
 
-- **41 layouts** in five kinds (statement, picture, data, drawing, text and cards) and four
+- **44 layouts** in five kinds (statement, picture, data, drawing, text and cards) and four
   background tones live in `scripts/deck.js`, among them infographic drawings: big arrows, cycles,
   hubs, a diamond of four, pyramids and funnels, hierarchies, flowcharts, roadmaps, logo walls and
-  slanted bands. You write one file, `deck.json`: pick a layout per
+  slanted bands, and three made for proposals: an executive summary in tiles (`bento`), contract
+  or price options (`options`) and a week-by-week schedule (`gantt`). You write one file, `deck.json`: pick a layout per
   slide and fill its fields. No rendering code.
 - **One focal element per slide**: the statement, number, picture, chart or drawing that proves
   the title, larger than everything else on the slide. Text is its caption, about 60 words on a
@@ -68,12 +69,15 @@ If the content is your own synthesis — a recommendation or a design worked out
 the storyline in the same message, one line per slide, and build after the user reacts. A deck
 that presents a finished document does not need this. If you cannot ask, or the user says to
 just proceed, continue with content-driven length and list your assumptions in the delivery.
-Layouts, order and wording are yours to decide; don't ask about them. Two looks are available:
-`brand.style` `"editorial"` (serif headlines, hairlines; the default) and `"bold"` (heavy sans
-headlines in the deep colour, the look of a corporate infographic deck); pick by the occasion and
-say which in the delivery. Without brand colours, pick
-one of the colour themes (`brand.theme`: `paper`, `ocean`, `forest`, `graphite`, `navy`) to suit
-the occasion, say which in the delivery, and use a different one when the user wants variety.
+Layouts, order and wording are yours to decide; don't ask about them. Three looks are available
+(`brand.style`): `"bento"` (the default: white slides, rounded tiles in a light grey with one dark
+tile for the main point, bold Aptos headlines, one blue accent, the logos at the top right; the
+look for proposals and client decks), `"editorial"` (serif headlines, hairlines on a paper page)
+and `"bold"` (the editorial page with heavy sans headlines in the deep colour). Pick by the
+occasion and say which in the delivery. Without brand colours, bento uses the `apple` theme (near
+black, light grey, blue `0071E3`); for the editorial looks pick one of the colour themes
+(`brand.theme`: `paper`, `ocean`, `forest`, `graphite`, `navy`) to suit the occasion, and use a
+different one when the user wants variety.
 
 **Language rule.** Write the deck — titles, body, labels inside charts and tables, legends,
 speaker notes — in the language the user writes to you in, including when the source document is
@@ -162,14 +166,19 @@ Read `reference/layouts.md` once. Then write the storyline as one line per slide
 - One message per slide. If a slide needs two focal elements, it is two slides.
 - **Substance test.** Each slide answers "what was done, built, found or decided here?" in one
   plain sentence. Slides that only organize — agenda, dividers, "design principles" — are kept
-  only when the user asks or the deck is long enough to need signposts.
+  only when the user asks or the deck is long enough to need signposts. A proposal needs them:
+  its parts are its structure (the proposal sequence below).
 - **Show the thing itself.** For a system: how it works, what it consists of, what its user sees.
   For a study: what was done to what, and what came out. For a report: what happened, how much,
   against what, and what was decided.
 - **One spine.** Find the structure the content really has — the steps of a process, the parts of
   a system, the sites — and reuse it, so problem and answer, plan and result line up.
 - **Leave undecided things undecided.** Dates, durations, prices and quantities that are in no
-  document and that the user has not given are not yours to commit.
+  document and that the user has not given are not yours to commit. For a proposal, look for the
+  prices in the project's own files first (a financial model, a quotation, a bill of quantities):
+  the offer price per month or per contract goes on the slide, the vendor's costs, margins, NPV
+  and IRR never do. With no prices to hand, show the price structure with `Rp [...]`
+  placeholders and say so.
 - Default sequences (adapt to the source's own order):
   - *Report or status update:* cover → summary → the numbers against target → one topic per
     slide with its evidence → where the work stands → issues → decisions and next period.
@@ -180,9 +189,16 @@ Read `reference/layouts.md` once. Then write the storyline as one line per slide
     error or qualitative analysis → conclusion → limitations.
   - *Training:* cover → what it is for → its parts → how to use it, step by step, on real
     screens → common mistakes → where to get help.
-  - *Proposal:* cover → summary → the problem on the spine → the answer on the same spine → the
-    thing itself, part by part → how the parts fit → evidence it has been done → phases → next
-    steps.
+  - *Proposal* (in parts, each opened by one `section` slide whose `items` list what the part
+    holds; no tab strip of sections across the top of the slides): cover → agenda (the parts) →
+    01 Executive Summary: the whole proposal on one `bento` slide → 02 Problem: the gaps on the
+    spine (`icon-grid` with a dark `band` for the consequence) → 03 Solution: how it works, what
+    it can do, evidence it has been done (the source's own screenshots or photos) → 04
+    Architecture: the system's parts and how they connect (`diagram`), integrations → 05 Price:
+    contract options with what is included and the assumptions (`options`) → 06 Implementation:
+    the schedule (`gantt` or `timeline`), the team, what the client prepares → closing: a separate
+    thank-you slide with the next steps and the contact (`closing`). Dense rather than airy: a
+    proposal is usually read as much as presented (`meta.mode: "read"`).
 - **Check the rhythm in the storyline, before any JSON.** Read the kind and tone columns alone:
   no layout twice in a row, no kind three times in a row, a statement every five to seven
   slides, text and cards at most two slides in five, about one slide in four dark or accent and
@@ -210,14 +226,17 @@ Read `reference/layouts.md` once. Then write the storyline as one line per slide
 - **Empty space is not filled with text.** An empty third means the focal element is too small
   (make the picture, chart or drawing larger) or the slide is too thin (merge it, or use a layout
   made for less: `statement`, `big-number`, `photo`). Lint reports large empty areas.
-- **Keep the editorial look.** The renderer sets it: a paper page, headlines in a serif (Georgia),
-  body in Aptos, big numbers in Aptos Light, one accent, hairlines instead of boxes, the company
-  logos at the top left of every slide and no page numbers. Colours come from one of five calm
-  themes (`brand.theme`) or the brand's own; do not set sizes or colours per slide
-  (`reference/design.md`).
+- **Keep the deck's look.** The renderer sets it; do not set sizes or colours per slide
+  (`reference/design.md`). Bento (the default): white slides, content on rounded tiles in a light
+  grey, one dark tile for the point a slide is about, headlines in bold Aptos, the part of the deck
+  as a small blue eyebrow above the title, the logos at the top right, section slides in light grey,
+  no coloured stripes, no tab strip, no page numbers. Editorial: a paper page, headlines in a serif
+  (Georgia), body in Aptos, big numbers in Aptos Light, hairlines instead of boxes, the logos at
+  the top left. Colours come from a theme (`brand.theme`) or the brand's own.
 - **Numbers stay quiet.** Steps, findings and list items carry a small "01" in the bold sans, not a
-  big numeral or a coloured disc; the order is read from it, it is not decoration. Body text is
-  never set in the muted grey: grey is for captions, labels and sources.
+  big numeral; the order is read from it, it is not decoration. In bento an item's icon sits in a
+  disc on its tile; elsewhere icons are drawn plain. Body text is never set in the muted grey:
+  grey is for captions, labels and sources.
 - **Depth from colour, not from lines.** No borders, no stripes on card edges, no glows. Where a
   block is needed it is a flat tile or a block of the brand colour.
 - **Real things over icons.** Show the photo, the screen or the number the source has; give named
@@ -282,7 +301,8 @@ Then hold every drawing to these:
 ```
 
 - Fields per layout, `meta` and `brand`: `reference/layouts.md`. `example/deck.json` (a pilot told
-  as a proposal) and `example/report.json` (a monthly report) show the layouts in use.
+  as a proposal), `example/report.json` (a monthly report) and `example/proposal.json` (a proposal
+  in six parts) show the layouts in use.
 - Plain words: whole sentences, words this audience says, every term explained once, one name per
   thing, one idea per sentence. For technical audiences keep the field's terms (token, agent,
   KPI); for non-specialists lead with the plain equivalent. Examples in `reference/design.md`.
@@ -291,10 +311,12 @@ Then hold every drawing to these:
   labels are drawn by PowerPoint in the viewer's locale.
 - Logos: files in `brand.logos` (with a white `"dark"` version for dark slides; make one when the
   logo has white parts inside a dark mark, since the automatic one would merge them); the logos
-  named in `brand.header` (one key or a list) sit side by side at the top left of every slide,
-  above a hairline. Logos keep their own colours, always: never recolour one (no home-made white
-  version). On dark slides the masthead becomes a light band so the logos stay as they are. If
-  `brand.json` exists in the project, omit `brand`.
+  named in `brand.header` (one key or a list) sit side by side on every slide: at the top right in
+  bento, at the top left above a hairline in the editorial looks. Logos keep their own colours,
+  always: never recolour one (no home-made white version). In bento a dark slide shows the logos
+  only in the brand's own dark version, else leaves them off (keep slides that need the logos
+  light); in the editorial looks the masthead becomes a light band. If `brand.json` exists in the
+  project, omit `brand`.
 
 ### 5. Speaker notes are the narration
 
@@ -398,7 +420,7 @@ If `scripts/deck.js` cannot run (no Node, no packages), the "no per-deck code" r
 - Say so in one line, so the user knows why this build is slower and how to fix it.
 - Write one `build.js` (or the equivalent the machine supports) next to the output: small helpers
   at the top (text, rule, logo masthead, title), one block per slide, composed freely per
-  slide, in the same editorial look (`reference/design.md`). Keep it with the deck so it can be rebuilt.
+  slide, in the deck's look (bento by default; `reference/design.md`). Keep it with the deck so it can be rebuilt.
 - Everything else in this skill still applies: asking first, the fact list and coverage, one
   focal element per slide, the rhythm of kinds and tones, the word budget, visuals chosen by
   relationship, notes on every slide, the QA passes, two fix rounds.
@@ -419,7 +441,8 @@ If `scripts/deck.js` cannot run (no Node, no packages), the "no per-deck code" r
   how to add a layout. `reference/design.md` — rhythm, focal element, frame and tone, picture
   treatments, logos, plain words. `reference/sources.md` — extraction, coverage, the fact list,
   what to do with each table, chart and picture.
-- `example/deck.json`, `example/report.json` — two decks to render and read.
+- `example/deck.json`, `example/report.json`, `example/proposal.json` — three decks to render and
+  read; the last is a proposal in parts with the bento layouts.
 
 ## Scope
 

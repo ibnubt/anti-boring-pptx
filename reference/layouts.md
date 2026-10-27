@@ -4,7 +4,7 @@ Read this once before writing the storyline. `example/deck.json` (a pilot, told 
 uses 25 layouts and `example/report.json` (a monthly report) uses the reporting layouts; render
 them to see them (`bash scripts/qa.sh example/report.json /tmp/report.pptx`).
 
-Contents: the deck file · content shape → layout · the five kinds · the 41 layouts · lint messages · adding a layout
+Contents: the deck file · content shape → layout · the five kinds · the 44 layouts · the bento layouts · lint messages · adding a layout
 
 ## The deck file
 
@@ -23,17 +23,21 @@ Contents: the deck file · content shape → layout · the five kinds · the 41 
 }
 ```
 
-- `brand.style`: `"editorial"` (headlines in Georgia; the default) or `"bold"` (headlines in heavy
-  Aptos in the deep colour, like a corporate infographic deck).
-- `brand.theme`: the colour theme, one of `paper` (default), `ocean`, `forest`, `graphite`, `navy`
+- `brand.style`: `"bento"` (the default: white slides, rounded grey tiles, bold Aptos headlines,
+  one blue accent, logos at the top right, the part of the deck as an eyebrow above each title),
+  `"editorial"` (headlines in Georgia on a paper page, hairlines) or `"bold"` (editorial with
+  headlines in heavy Aptos in the deep colour, like a corporate infographic deck).
+- `brand.theme`: the colour theme: `apple` (the bento default: white, `F5F5F7` tiles, `1D1D1F`,
+  blue `0071E3`), or `paper` (the editorial default), `ocean`, `forest`, `graphite`, `navy`
   (`reference/design.md`).
 - `brand.colors`: overrides the theme's colours: `primary` is the dark tone (dark slides, strong
   blocks), `accent` marks the thing the slide is about, `warn` marks risk and attention, `paper`
   and `ink` set the light background and the text colour. All optional. Hex without `#`.
 - `brand.logos`: transparent PNG files, paths relative to `deck.json`, each either a path or
-  `{ "light": "logo.png", "dark": "logo-white.png" }`. `brand.header` names the logo shown at the
-  top left of every slide, above a hairline, or lists several (`["company", "holding"]`) shown side
-  by side with a hairline between. Logos are never recoloured: on a dark slide the masthead becomes a
+  `{ "light": "logo.png", "dark": "logo-white.png" }`. `brand.header` names the logo shown on every
+  slide (bento: at the top right; editorial: at the top left, above a hairline), or lists several
+  (`["company", "holding"]`) shown side by side with a hairline between. In bento a dark slide shows
+  them only in their `dark` version and leaves them off otherwise. Logos are never recoloured: on a dark slide the masthead becomes a
   light band and the logos keep their colours (a `dark` version is only used where a layout puts a
   logo on a dark area, and only when the brand supplies it). No white plates. Without `header`, `brand.name` is printed there in
   spaced capitals. There are no page numbers.
@@ -82,10 +86,10 @@ Fields every slide accepts:
 | Field | Meaning |
 |---|---|
 | `id` | short name, used in lint messages |
-| `layout` | one of the 41 below |
+| `layout` | one of the 44 below |
 | `covers` | the ids of the sources' parts this slide carries (see `meta.coverage`) |
 | `side` | on asymmetric layouts, which side the picture, chart or panel takes; leave it out and the layout mirrors itself on every second use |
-| `kicker` | the part of the deck, in small capitals at the top right; on the first slide of a part only |
+| `kicker` | the part of the deck. Editorial: in small capitals at the top right, on the first slide of a part only. Bento: the eyebrow above the title; left out, the title of the last `section` slide is used, and `""` hides it |
 | `title` | the point of the slide, one sentence |
 | `notes` | speaker notes, required, at least a sentence or two |
 | `tone` | `light`, `tint`, `dark`, or `accent` (the brand's accent colour; for `statement`, `quote`, `section`, `big-number`, `kpi`, `closing`), to override the layout's default |
@@ -111,9 +115,9 @@ lint checks it (see `reference/design.md` for why).
 | P picture | `photo`, `figure`, `gallery`, `annotated`, `image-text`, `screen`, `code`, `logo-wall`, `bands` |
 | D data | `chart`, `dashboard`, `table`, `matrix`, `status` |
 | G drawing | `diagram`, `process`, `arrows`, `cycle`, `hub`, `diamond`, `pyramid`, `tree`, `roadmap`, `stations`, `nested`, `timeline` |
-| T text and cards | `icon-grid`, `feature`, `split`, `pairs`, `comparison`, `summary`, `agenda`, `ribbons` |
+| T text and cards | `icon-grid`, `feature`, `split`, `pairs`, `comparison`, `summary`, `agenda`, `ribbons`, `bento` |
 
-No kind three times in a row; a statement every five to seven slides; text and cards at most two
+`options` and `gantt` are data (D). No kind three times in a row; a statement every five to seven slides; text and cards at most two
 slides in five; about one slide in four dark or accent.
 
 ## Content shape → layout
@@ -159,9 +163,12 @@ slides in five; about one slide in four dark or accent.
 | a command, prompt or file the audience types, with what it does | `code` |
 | pairs: learned → changed, before → after, cause → response | `pairs` |
 | the closing: decisions asked, next steps | `closing` |
-| only when the user asks or the deck is long | `agenda`, `section` |
+| the executive summary of a proposal: the core claim in one sentence, its key numbers, and problem, answer, price and next step | `bento` |
+| contract or price options, what every option includes, the assumptions behind the prices | `options` |
+| a schedule week by week: activities with bars, months over the weeks, milestones | `gantt` |
+| only when the user asks, the deck is long, or it is a proposal in parts | `agenda`, `section` |
 
-## The 41 layouts
+## The 44 layouts
 
 Limits in brackets are enforced by lint.
 
@@ -404,6 +411,55 @@ A **flowchart** is a `diagram` whose nodes take `"shape"`: `"decision"` (a diamo
 question; its links carry `"label": "Ya"` / `"Tidak"`), `"start"` or `"end"` (a pill in the deep or
 the accent colour). Other nodes are the usual tiles.
 
+## The bento layouts
+
+In the bento look (`brand.style` left out or `"bento"`) these layouts take a different shape and a
+few more fields, and three layouts are added. Everything above still holds.
+
+**cover** — the logos large at the top left; `kicker` (in the accent), `title` (up to 76 pt),
+`accent`, `subtitle`; `chips`: `[{ "icon", "label" }]` [≤6], pills for what the deck is about;
+`facts`: `[{ "label", "value" }]` [≤3] at the foot ("Disusun untuk", "Oleh", "Tanggal"; a value in
+`[brackets]` is set in the accent as a placeholder), else `for` and `note`. `panel` on the right:
+`image` (a rounded photo; `focus`), `caption` (a white chip on the photo), `stats`:
+`[{ "value", "label" }]` [≤2] as two tiles under the photo, the first dark; without a picture or
+stats, `items` on a dark tile.
+
+**agenda** — up to six `items` (`{ "title", "text" }` or strings) become numbered tiles, three to a
+row; seven fall back to the list.
+
+**section** (tint) — `number` ("01", shown as "Bagian 01" or "Part 01" by `meta.lang`), `title` (the
+part's name, up to 60 pt), `subtitle`, and `items` [≤6]: what this part holds, numbered on a white
+tile at the right; or `image` there instead. Its `title` becomes the eyebrow of the slides that
+follow.
+
+**icon-grid** (light) — each item is a grey tile: its icon in a white disc beside its title, the
+body under both; `band` is a dark strip under the tiles, for the consequence ("Akibatnya …"). One
+row of short items is set as tall as its content, in the middle of the room.
+
+**closing** (light) — the separate thank-you slide. `thanks` large ("Terima kasih."), `title` under
+it as one sentence (or `subtitle` without `thanks`); `contact`: a string, a list of lines (strings
+or `{ "icon", "text" }`), or `{ "name", "lines" }`, on a grey tile; `steps`:
+`[{ "title", "text" }]` [≤4] on a dark tile at the right under `stepsHeading` (default "Langkah
+berikut" / "Next steps"); without steps, `image` takes the right side.
+
+**bento** (light) — the executive summary as tiles. `panel`: `{ "heading", "text", "numbers":
+[{ "value", "label" }] [≤4] }` on the dark tile (`"side": "right"` moves it), the proposal in one
+sentence and the numbers that carry it; `blocks`: `[{ "icon", "title", "bullets" | "text",
+"warn": true }]` [2–4], two by two (three side by side): problem, solution, price, next step.
+
+**options** (light) — `options`: `[{ "label", "title", "price", "unit", "note", "facts":
+[{ "label", "value" }] [≤3], "strong": true }]` [1–3] side by side, the price large with its unit
+beside it ("/ bulan"), `strong` on a dark tile; `includes`: `{ "heading", "items": [{ "icon",
+"text" }] [≤5] }` and `assumptions`: `{ "heading", "items" }` under them. Prices not yet known are
+`"Rp [...]"`. Never put the seller's costs, margins, NPV or IRR on this slide.
+
+**gantt** (light) — `units` (the number of weeks or periods), `groups`:
+`[{ "label", "span" }]` over them (months; the spans add up to `units`), `heads`: the column heads
+(`["Tahap", "Aktivitas"]`), `rows`: `[{ "group", "label", "from", "to", "tag", "muted": true }]`
+[2–12] — a bar from unit `from` to `to`, or a dark pill with `tag` ("Live") for a milestone row;
+`milestones`: `[{ "label", "text", "strong": true }]` [≤4] as tiles under the chart. Count units
+from the start of the work ("Minggu 1"), not from calendar dates the source does not fix.
+
 ## Lint messages
 
 | Message | Do this |
@@ -433,7 +489,11 @@ the accent colour). Other nodes are the usual tiles.
 | "charts[i].condition" is missing | Say which data, setting and period the dashboard chart shows |
 | status must be one of done, ok, risk, late, idle | Use one of those five |
 | two texts overlap | A text above it is too long; shorten that one |
-| warn: this slide only organizes the deck | Keep `agenda` and `section` only when asked or the deck is long |
+| warn: this slide only organizes the deck | Keep `agenda` and `section` only when asked or the deck is long (not raised in bento, where a proposal's parts are its structure) |
+| the options hold more than their tiles | Drop a note or a fact, shorten the option title, or move `includes` and `assumptions` to another slide |
+| the "span" of "groups" add up to N, not to "units" | Make the month spans add up to the number of weeks |
+| row "x" ends at N, after the last unit | Raise `units` or shorten the bar |
+| warn: the header logos are left off N dark slide(s) | Give each logo its own `dark` version in `brand.logos`, or keep those slides light with a dark tile |
 | warn: five light slides in a row | Set `"tone": "dark"` on one content slide, or put a statement or photo there |
 | warn: image not found | Fix the path, or leave `image` out for a placeholder |
 | warn: image … may look blurry | Show it smaller, crop less, or find a larger original |
