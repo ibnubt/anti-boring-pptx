@@ -31,6 +31,23 @@ speaker notes on every slide.
 | `scripts/pptx_text.py` | text of any `.pptx`; `--diff` compares two decks |
 | `scripts/contact_sheet.py` | PDF pages to JPG, six per sheet |
 | `scripts/export_pdf_mac.sh`, `reference/render-macos.md` | PowerPoint export on macOS without LibreOffice |
+| `skills/chatgpt-illustration-sheet/` | a companion skill for the deck's illustrations, see below |
+
+## Companion skill: illustrations drawn by ChatGPT
+
+`skills/chatgpt-illustration-sheet` makes a consistent set of 3D illustrations for a deck. It writes
+one prompt that asks ChatGPT for a sheet of several illustrations at once (6 by default, up to 9),
+so one generation gives a whole family in one style. The person pastes the prompt into ChatGPT and
+saves the image; the skill then cuts the sheet into one transparent PNG per illustration, records
+each in a `library.json` for reuse, and saves a preview on a light and a blue card.
+
+It is a separate skill, so it is installed on its own, next to `pptx-varied-deck`:
+
+```bash
+cp -R ~/.claude/skills/pptx-varied-deck/skills/chatgpt-illustration-sheet ~/.claude/skills/
+```
+
+It needs Python 3 with Pillow and numpy. Nothing in it calls an image API.
 
 ## Requirements
 
